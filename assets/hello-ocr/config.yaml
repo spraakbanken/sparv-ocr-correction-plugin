@@ -1,0 +1,16 @@
+metadata:
+    id: hello-ocr
+    language: swe
+
+import:
+    importer: text_import:parse
+
+export:
+    annotations:
+        - <sentence>
+        - <token:word>
+        - <token>:stanza.pos
+        - <token>:sparv_ocr_suggestion.ocr-suggestion
+
+sparv:
+    compression: none
