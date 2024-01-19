@@ -8,7 +8,7 @@ import:
 export:
     annotations:
         - <sentence>
-        - <token:word>
+        # - <token:word>
         - <token>:stanza.pos
         - <token>:sparv_ocr_suggestion.ocr-suggestion
 
