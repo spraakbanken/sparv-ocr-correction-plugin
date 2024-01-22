@@ -34,7 +34,11 @@ PROJECT_SRC := "src/sparv_ocr_suggestion"
 
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
-  INVENV = rye run
+  ifeq (${CI},)
+    INVENV = rye run
+  else
+    INVENV = export VIRTUAL_ENV="${VENV_NAME}"; export PATH="${VENV_NAME}/bin:${PATH}"; unset PYTHON_HOME;
+  endif
 else
   VENV_NAME = ${VIRTUAL_ENV}
   INVENV =
@@ -50,6 +54,7 @@ tests := tests
 info:
 	@echo "Platform: ${PLATFORM}"
 	@echo "INVENV: '${INVENV}'"
+	@echo "CI: '${CI}'"
 
 dev: install-dev
 

@@ -12,6 +12,7 @@ permissions:
 
 env:
   MINIMUM_PYTHON_VERSION: "3.9"
+  CI: "github-actions"
 
 jobs:
   lint:
@@ -46,6 +47,7 @@ jobs:
         uses: ./.github/actions/setup-python-env
         with:
           python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
+      - run: make info
       #----------------------------------------------
       # Run matrix task
       #----------------------------------------------
