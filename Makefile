@@ -44,7 +44,7 @@ else
   INVENV =
 endif
 
-default_cov := "--cov=src/json_streams"
+default_cov := "--cov=${PROJECT_SRC}"
 cov_report := "term-missing"
 cov := ${default_cov}
 
