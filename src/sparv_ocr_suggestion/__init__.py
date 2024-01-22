@@ -1,4 +1,4 @@
-from typing import Iterable, Optional
+from typing import Optional
 from sparv.api import (  # type: ignore [import-untyped]
     annotator,
     Output,
@@ -7,7 +7,7 @@ from sparv.api import (  # type: ignore [import-untyped]
     Config,
 )
 
-from transformers import pipeline, T5ForConditionalGeneration, AutoTokenizer
+from transformers import pipeline, T5ForConditionalGeneration, AutoTokenizer  # type: ignore [import-untyped]
 
 __description__ = "Calculating word neighbours by mask a word in a BERT model."
 
@@ -79,7 +79,7 @@ class OcrSuggestor:
             "text2text-generation", model=model, tokenizer=tokenizer
         )
 
-    def calculate_suggestions(self, text: str) -> str:
+    def calculate_suggestions(self, text: str) -> list[Optional[str]]:
         logger.warning("Analyzing '%s'", text)
         suggested_text = self.pipeline(text)
         logger.warning("Output: '%s'", suggested_text)

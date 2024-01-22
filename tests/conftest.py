@@ -1,6 +1,6 @@
 import pytest
 
-from transformers import T5ForConditionalGeneration, AutoTokenizer
+from transformers import T5ForConditionalGeneration, AutoTokenizer  # type: ignore [import-untyped]
 from sparv_ocr_suggestion import (
     DEFAULT_TOKENIZER_NAME,
     OcrSuggestor,

@@ -32,9 +32,6 @@ build-backend = "hatchling.build"
 [project.entry-points."sparv.plugin"]
 sparv_ocr_suggestion = "sparv_ocr_suggestion"
 
-[project.optional-dependencies]
-ci = ["ruff>=0.1.1"]
-
 [project.urls]
 Homepage = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin"
 Repository = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin"
@@ -48,6 +45,7 @@ dev-dependencies = [
     "mypy>=1.8.0",
     "bump2version>=1.0.1",
     "pytest-cov>=4.1.0",
+    "ruff>=0.1.14",
 ]
 
 [tool.hatch.build.targets.sdist]
