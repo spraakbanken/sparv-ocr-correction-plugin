@@ -41,12 +41,30 @@ jobs:
         uses: actions/checkout@v4
       
       #----------------------------------------------
-      #  -----  install & configure python & rye  -----
+      #  -----  setup python   -----
       #----------------------------------------------
       - name: Set up the environment
-        uses: ./.github/actions/setup-python-env
+        uses: actions/setup-python@v5
+        id: setup-python
         with:
           python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
+      
+      
+      - name: Load cached venv
+        id: cached-venv
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+  
+      - name: Install dependencies
+        if: steps.cached-venv.outputs.cache-hit != 'true'
+        run: |
+          test -d .venv || python -m venv .venv
+          pip install wheel
+          pip install -r tests/requirements-testing.txt
+          pip install -e .
+        shell: bash
       - run: make info
       #----------------------------------------------
       # Run matrix task
@@ -76,12 +94,30 @@ jobs:
         uses: actions/checkout@v4
 
       #----------------------------------------------
-      #  -----  install & configure python & rye  -----
+      #  -----  setup python   -----
       #----------------------------------------------
       - name: Set up the environment
-        uses: ./.github/actions/setup-python-env
+        uses: actions/setup-python@v5
+        id: setup-python
         with:
           python-version: ${{ matrix.python-version }}
+      
+      
+      - name: Load cached venv
+        id: cached-venv
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+  
+      - name: Install dependencies
+        if: steps.cached-venv.outputs.cache-hit != 'true'
+        run: |
+          test -d .venv || python -m venv .venv
+          pip install wheel
+          pip install -r tests/requirements-testing.txt
+          pip install -e .
+        shell: bash
      
      
       #----------------------------------------------
@@ -171,19 +207,21 @@ jobs:
         uses: actions/checkout@v4
       
       #----------------------------------------------
-      #  -----  install & configure rye  -----
+      #  -----  setup python   -----
       #----------------------------------------------
-      - name: Install rye
-        id: setup-rye
-        uses: eifinger/setup-rye@5b24b104a68da1e2ea0073aa191a2bab66f55d7c
+      - name: Set up the environment
+        uses: actions/setup-python@v5
+        id: setup-python
+        with:
+          python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
       
-      - name: Set up python ${{ env.MINIMUM_PYTHON_VERSION }}
-        run: rye pin ${{ env.MINIMUM_PYTHON_VERSION }}
+      - name: Set up build environment
+        run: pip install build
       #----------------------------------------------
       #  -----  build distribution -----
       #----------------------------------------------
       - name: Build distribution
-        run: rye build
+        run: python -m build
 
       #----------------------------------------------
       #  -----  upload artifacts  -----
@@ -217,10 +255,10 @@ jobs:
           name: pypi_files
           path: dist
 
-      - run: rm -r src/sparv_bert_neighbour
+      - run: rm -r src/sparv_ocr_suggestion
       - run: pip install typing-extensions
-      - run: pip install -r tests/requirements-test.txt
-      - run: pip install sparv-bert-neighbour-plugin --no-index --no-deps --find-links dist --force-reinstall
+      - run: pip install -r tests/requirements-testing.txt
+      - run: pip install sparv-ocr-suggestion-plugin --no-index --no-deps --find-links dist --force-reinstall
       - run: pytest
 
   publish:
