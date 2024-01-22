@@ -57,6 +57,6 @@ runs:
     - name: Install dependencies
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       run: |
-        test -d .venv || python -m venv .venv
+        python -m venv .venv
         rye sync
       shell: bash
