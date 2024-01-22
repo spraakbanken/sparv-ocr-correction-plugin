@@ -47,3 +47,4 @@ runs:
     
     - name: list .venv
       run: ls -R .venv
+      shell: bash
