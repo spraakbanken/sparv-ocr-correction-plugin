@@ -35,7 +35,7 @@ PROJECT_SRC := "src/sparv_ocr_suggestion"
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
   ifeq (${CI},)
-    INVENV = rye run
+    INVENV = pdm run
   else
     INVENV = export VIRTUAL_ENV="${VENV_NAME}"; export PATH="${VENV_NAME}/bin:${PATH}"; unset PYTHON_HOME;
   endif
@@ -60,7 +60,7 @@ dev: install-dev
 
 # setup development environment
 install-dev:
-	rye sync --no-lock
+	pdm install --dev
 
 test: run-all-tests
 
@@ -91,3 +91,6 @@ fmt:
 # check formatting
 check-fmt:
 	${INVENV} ruff format --check ${PROJECT_SRC} ${tests}
+
+build:
+	pdm build
