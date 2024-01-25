@@ -30,10 +30,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.entry-points."sparv.plugin"]
-sparv_ocr_suggestion = "sparv_ocr_suggestion"
+ocr_suggestion = "ocr_suggestion"
 
 [project.urls]
-Homepage = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin"
+Homepage = "https://spraakbanken.gu.se"
 Repository = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin"
 "Bug Tracker" = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin/issues"
 
@@ -51,7 +51,7 @@ dev-dependencies = [
 exclude = ["/.github", "/docs"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/sparv_ocr_suggestion"]
+packages = ["src/ocr_suggestion"]
 
 [tool.hatch.metadata]
 allow-direct-references = true

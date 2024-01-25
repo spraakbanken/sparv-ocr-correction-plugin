@@ -30,15 +30,11 @@ help:
 
 PLATFORM := `uname -o`
 PROJECT := "sparv_ocr_suggestion"
-PROJECT_SRC := "src/sparv_ocr_suggestion"
+PROJECT_SRC := "src/ocr_suggestion"
 
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
-  ifeq (${CI},)
-    INVENV = pdm run
-  else
-    INVENV = export VIRTUAL_ENV="${VENV_NAME}"; export PATH="${VENV_NAME}/bin:${PATH}"; unset PYTHON_HOME;
-  endif
+  INVENV = pdm run
 else
   VENV_NAME = ${VIRTUAL_ENV}
   INVENV =
@@ -62,8 +58,10 @@ dev: install-dev
 install-dev:
 	pdm install --dev
 
+.PHONY: test
 test: run-all-tests
 
+.PHONY: run-all-tests
 # run all tests
 run-all-tests:
 	${INVENV} pytest -vv ${tests}
