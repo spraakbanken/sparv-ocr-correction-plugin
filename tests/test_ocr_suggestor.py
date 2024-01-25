@@ -1,4 +1,4 @@
-from sparv_ocr_suggestion import OcrSuggestor
+from ocr_suggestion import OcrSuggestor
 
 
 def test_short_text(ocr_suggestor: OcrSuggestor):
