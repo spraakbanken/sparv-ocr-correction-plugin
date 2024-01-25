@@ -8,7 +8,7 @@ authors = [
 dependencies = ["sparv-pipeline >=5.2.0", "transformers>=4.34.1"]
 license = "MIT"
 readme = "README.md"
-requires-python = ">= 3.9"
+requires-python = ">=3.9,<3.12"
 classifiers = [
     "Development Status :: 4 - Beta",
     # "Development Status :: 5 - Production/Stable",
@@ -57,7 +57,7 @@ packages = ["src/sparv_ocr_suggestion"]
 allow-direct-references = true
 
 [tool.black]
-target-version = ["py39", "py310", "py311", "py312"]
+target-version = ["py39", "py310", "py311"]
 
 [tool.hatch.envs.test]
 dependencies = ["pytest", "pytest-cov"]
