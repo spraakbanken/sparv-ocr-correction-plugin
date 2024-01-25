@@ -10,7 +10,7 @@ export:
         - <sentence>
         # - <token:word>
         - <token>:stanza.pos
-        - <token>:sparv_ocr_suggestion.ocr-suggestion
+        - <token>:ocr_suggestion.ocr-suggestion
 
 sparv:
     compression: none
