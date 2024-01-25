@@ -44,7 +44,7 @@ jobs:
       #  -----  setup python   -----
       #----------------------------------------------
       - name: Set up the environment
-        uses: actions/setup-python@v5
+        uses: pdm-project/setup-pdm@v4
         id: setup-python
         with:
           python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
@@ -55,16 +55,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/ci.yml') }}
   
       - name: Install dependencies
         if: steps.cached-venv.outputs.cache-hit != 'true'
-        run: |
-          test -d .venv || python -m venv .venv
-          pip install wheel
-          pip install -r tests/requirements-testing.txt
-          pip install -e .
-        shell: bash
+        run: make install-dev
       - run: make info
       #----------------------------------------------
       # Run matrix task
@@ -97,7 +92,7 @@ jobs:
       #  -----  setup python   -----
       #----------------------------------------------
       - name: Set up the environment
-        uses: actions/setup-python@v5
+        uses: pdm-project/setup-pdm@v4
         id: setup-python
         with:
           python-version: ${{ matrix.python-version }}
@@ -108,17 +103,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/ci.yml') }}
   
       - name: Install dependencies
         if: steps.cached-venv.outputs.cache-hit != 'true'
-        run: |
-          test -d .venv || python -m venv .venv
-          pip install wheel
-          pip install -r tests/requirements-testing.txt
-          pip install -e .
-        shell: bash
-     
+        run: make install-dev
      
       #----------------------------------------------
       # Run tests and upload coverage
@@ -210,18 +199,16 @@ jobs:
       #  -----  setup python   -----
       #----------------------------------------------
       - name: Set up the environment
-        uses: actions/setup-python@v5
+        uses: pdm-project/setup-pdm@v4
         id: setup-python
         with:
           python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
       
-      - name: Set up build environment
-        run: pip install build
       #----------------------------------------------
       #  -----  build distribution -----
       #----------------------------------------------
       - name: Build distribution
-        run: python -m build
+        run: make build
 
       #----------------------------------------------
       #  -----  upload artifacts  -----

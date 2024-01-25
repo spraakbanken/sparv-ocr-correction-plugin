@@ -67,3 +67,12 @@ dependencies = ["pytest", "pytest-cov"]
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.10", "3.11", "3.12"]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=7.4.4",
+    "mypy>=1.8.0",
+    "bump2version>=1.0.1",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.14",
+]
