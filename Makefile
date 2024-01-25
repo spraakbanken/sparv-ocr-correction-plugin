@@ -34,13 +34,17 @@ PROJECT_SRC := "src/sparv_ocr_suggestion"
 
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
-  INVENV = rye run
+  ifeq (${CI},)
+    INVENV = rye run
+  else
+    INVENV = export VIRTUAL_ENV="${VENV_NAME}"; export PATH="${VENV_NAME}/bin:${PATH}"; unset PYTHON_HOME;
+  endif
 else
   VENV_NAME = ${VIRTUAL_ENV}
   INVENV =
 endif
 
-default_cov := "--cov=src/json_streams"
+default_cov := "--cov=${PROJECT_SRC}"
 cov_report := "term-missing"
 cov := ${default_cov}
 
@@ -50,6 +54,7 @@ tests := tests
 info:
 	@echo "Platform: ${PLATFORM}"
 	@echo "INVENV: '${INVENV}'"
+	@echo "CI: '${CI}'"
 
 dev: install-dev
 
