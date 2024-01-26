@@ -1,13 +1,17 @@
 from typing import Optional
+
 from sparv.api import (  # type: ignore [import-untyped]
-    annotator,
-    Output,
-    get_logger,
     Annotation,
     Config,
+    Output,
+    annotator,
+    get_logger,
 )
-
-from transformers import pipeline, T5ForConditionalGeneration, AutoTokenizer  # type: ignore [import-untyped]
+from transformers import (  # type: ignore [import-untyped]
+    AutoTokenizer,
+    T5ForConditionalGeneration,
+    pipeline,
+)
 
 __description__ = "Calculating word neighbours by mask a word in a BERT model."
 
@@ -57,12 +61,11 @@ def annotate_ocr_suggestion(
     sentences, _orphans = sentence.get_children(word)
     token_word = list(word.read())
     out_ocr_suggestion_annotation = word.create_empty_attribute()
-    logger.warning("%d", len(out_ocr_suggestion))
 
     logger.progress(total=len(sentences))  # type: ignore
     for sent in sentences:
         logger.progress()  # type: ignore
-        sent_to_tag = TOK_SEP.join(token_word[token_index] for token_index in sent)
+        sent_to_tag = [token_word[token_index] for token_index in sent]
 
         ocr_suggestions = ocr_suggestor.calculate_suggestions(sent_to_tag)
         out_ocr_suggestion_annotation[:] = ocr_suggestions
@@ -72,22 +75,43 @@ def annotate_ocr_suggestion(
 
 
 class OcrSuggestor:
+    TEXT_LIMIT: int = 127
+
     def __init__(self, *, tokenizer, model) -> None:
         self.tokenizer = tokenizer
         self.model = model
-        self.pipeline = pipeline(
-            "text2text-generation", model=model, tokenizer=tokenizer
-        )
+        self.pipeline = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
 
-    def calculate_suggestions(self, text: str) -> list[Optional[str]]:
-        logger.warning("Analyzing '%s'", text)
-        suggested_text = self.pipeline(text)
-        logger.warning("Output: '%s'", suggested_text)
-        ocr_suggestions = suggested_text[0]["generated_text"]
-        ocr_suggestions = ocr_suggestions.replace(",", " ,")
-        ocr_suggestions = ocr_suggestions.replace(".", " .")
-        return zip_and_diff(text.split(TOK_SEP), ocr_suggestions.split(TOK_SEP))
+    def calculate_suggestions(self, text: list[str]) -> list[Optional[str]]:
+        logger.debug("Analyzing '%s'", text)
+        parts = []
+        curr_part: list[str] = []
+        curr_len = 0
+        ocr_suggestions: list[str] = []
+        for word in text:
+            len_word = bytes_length(word)
+            if (curr_len + len_word + 1) > self.TEXT_LIMIT:
+                parts.append(TOK_SEP.join(curr_part))
+                curr_part, curr_len = [word], len_word
+            else:
+                curr_part.append(word)
+                curr_len = len_word if curr_len == 0 else curr_len + len_word + 1
+        if len(curr_part) > 0:
+            parts.append(TOK_SEP.join(curr_part))
+        for part in parts:
+            suggested_text = self.pipeline(part)[0]["generated_text"]
+            suggested_text = suggested_text.replace(",", " ,")
+            suggested_text = suggested_text.replace(".", " .")
+            ocr_suggestions = ocr_suggestions + suggested_text.split(TOK_SEP)
+
+        if len(text) == len(ocr_suggestions) + 1 and text[-1] != ocr_suggestions[-1]:
+            ocr_suggestions.append(text[-1])
+        return zip_and_diff(text, ocr_suggestions)
 
 
 def zip_and_diff(orig: list[str], sugg: list[str]) -> list[Optional[str]]:
     return [sw if sw != ow else None for (ow, sw) in zip(orig, sugg)]
+
+
+def bytes_length(s: str) -> int:
+    return len(s.encode("utf-8"))
