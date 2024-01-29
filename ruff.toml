@@ -19,7 +19,6 @@ select = [
 # ignore = ["E501"]
 ignore = ["ANN101", "ANN102","D203", "D213", "B008"]
 
-line-length = 97
 
 target-version = "py39"
 
