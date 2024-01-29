@@ -37,16 +37,6 @@ Homepage = "https://spraakbanken.gu.se"
 Repository = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin"
 "Bug Tracker" = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin/issues"
 
-[tool.rye]
-managed = true
-dev-dependencies = [
-    "pytest>=7.4.2",
-    "mypy>=1.8.0",
-    "bump2version>=1.0.1",
-    "pytest-cov>=4.1.0",
-    "ruff>=0.1.14",
-]
-
 [tool.hatch.build.targets.sdist]
 exclude = ["/.github", "/docs"]
 
