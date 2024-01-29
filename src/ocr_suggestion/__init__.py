@@ -19,12 +19,12 @@ DEFAULT_MODEL_NAME = "viklofg/swedish-ocr-correction"
 DEFAULT_TOKENIZER_NAME = "google/byt5-small"
 __config__ = [
     Config(
-        "sparv_ocr_suggestion.model",
+        "ocr_suggestion.model",
         description="Huggingface pretrained model name",
         default=DEFAULT_MODEL_NAME,
     ),
     Config(
-        "sparv_ocr_suggestion.tokenizer",
+        "ocr_suggestion.tokenizer",
         description="HuggingFace pretrained tokenizer name",
         default=DEFAULT_TOKENIZER_NAME,
     ),
@@ -45,14 +45,14 @@ ocr = "Den i HandelstidniDgens g&rdagsnnmmer omtalade hvalfisken, sorn fångats 
 )
 def annotate_ocr_suggestion(
     out_ocr_suggestion: Output = Output(
-        "<token>:sparv_ocr_suggestion.ocr-suggestion",
+        "<token>:ocr_suggestion.ocr-suggestion",
         cls="ocr_suggestion",
         description="Transformer neighbours from masked BERT (format: '|<word>:<score>|...|)",
     ),
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
-    model_name: str = Config("sparv_ocr_suggestion.model"),
-    tokenizer_name: str = Config("sparv_ocr_suggestion.tokenizer"),
+    model_name: str = Config("ocr_suggestion.model"),
+    tokenizer_name: str = Config("ocr_suggestion.tokenizer"),
 ) -> None:
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     model = T5ForConditionalGeneration.from_pretrained(model_name)
@@ -80,7 +80,9 @@ class OcrSuggestor:
     def __init__(self, *, tokenizer, model) -> None:
         self.tokenizer = tokenizer
         self.model = model
-        self.pipeline = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
+        self.pipeline = pipeline(
+            "text2text-generation", model=model, tokenizer=tokenizer
+        )
 
     def calculate_suggestions(self, text: list[str]) -> list[Optional[str]]:
         logger.debug("Analyzing '%s'", text)
