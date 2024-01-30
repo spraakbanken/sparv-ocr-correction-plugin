@@ -37,9 +37,6 @@ logger = get_logger(__name__)
 TOK_SEP = " "
 
 
-ocr = "Den i HandelstidniDgens g&rdagsnnmmer omtalade hvalfisken, sorn fångats i Frölnndaviken"
-
-
 @annotator(
     "Word neighbour tagging with a masked Bert model",
 )
@@ -47,7 +44,7 @@ def annotate_ocr_suggestion(
     out_ocr_suggestion: Output = Output(
         "<token>:ocr_suggestion.ocr-suggestion",
         cls="ocr_suggestion",
-        description="Transformer neighbours from masked BERT (format: '|<word>:<score>|...|)",
+        description="Neighbours from masked BERT (format: '|<word>:<score>|...|)",
     ),
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
