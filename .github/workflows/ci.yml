@@ -201,6 +201,7 @@ jobs:
         run: |
           source .venv/bin/activate
           cd examples/hello-ocr
+          echo "" | sparv setup
           sparv run
           ls -R
 
