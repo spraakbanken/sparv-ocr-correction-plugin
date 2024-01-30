@@ -84,7 +84,7 @@ bumpversion: install-dev
 
 # run formatter(s)
 fmt:
-	${INVENV} ruff ${PROJECT_SRC} ${tests}
+	${INVENV} ruff format ${PROJECT_SRC} ${tests}
 
 # check formatting
 check-fmt:

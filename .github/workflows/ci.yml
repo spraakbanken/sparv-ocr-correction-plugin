@@ -170,10 +170,45 @@ jobs:
           # name: codecov-umbrella
           verbose: true
 
+  run-example:
+    name: Run example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      #----------------------------------------------
+      #  -----  setup python   -----
+      #----------------------------------------------
+      - name: Set up the environment
+        uses: pdm-project/setup-pdm@v4
+        id: setup-python
+        with:
+          python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
+      
+      
+      - name: Load cached venv
+        id: cached-venv
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/ci.yml') }}
+  
+      - name: Install dependencies
+        if: steps.cached-venv.outputs.cache-hit != 'true'
+        run: make install-dev
+      
+      - name: Run example
+        run: |
+          source .venv/bin/activate
+          cd examples/hello-ocr
+          echo "" | sparv setup
+          sparv run
+          ls -R
+
    # https://github.com/marketplace/actions/alls-green#why used for branch protection checks
   check:
     if: always()
-    needs: [lint, coverage]
+    needs: [lint, coverage, run-example]
     runs-on: ubuntu-latest
     permissions: {}
     steps:

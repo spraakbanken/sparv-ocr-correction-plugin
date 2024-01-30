@@ -1,10 +1,12 @@
 import pytest
-
-from transformers import T5ForConditionalGeneration, AutoTokenizer  # type: ignore [import-untyped]
 from ocr_suggestion import (
+    DEFAULT_MODEL_NAME,
     DEFAULT_TOKENIZER_NAME,
     OcrSuggestor,
-    DEFAULT_MODEL_NAME,
+)
+from transformers import (  # type: ignore [import-untyped]
+    AutoTokenizer,
+    T5ForConditionalGeneration,
 )
 
 
