@@ -95,7 +95,7 @@ safetensors==0.4.1
 six==1.16.0
 smart-open==6.4.0
 smmap==5.0.1
-snakemake==7.32.3
+snakemake==8.4.3
 sparv-pipeline==5.2.0
 stanza==1.5.1
 stopit==1.1.2
