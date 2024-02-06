@@ -1,5 +1,8 @@
 # sparv-ocr-suggestion-plugin
 
+[![CI](https://github.com/spraakbanken/sparv-ocr-suggestion-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/spraakbanken/sparv-ocr-suggestion-plugin/actions/workflows/ci.yml)
+[![PyPI version](https://badge.fury.io/py/sparv-ocr-suggestion-plugin.svg)](https://pypi.org/project/sparv-ocr-suggestion-plugin)
+
 Sparv plugin to annotate suggestions to OCR:ed documents.
 
 ## Install
