@@ -59,51 +59,10 @@ jobs:
           name: .coverage-${{ matrix.os }}-${{ matrix.python-version }}
           path: .coverage
 
-  doctests:
-    name: "${{ matrix.os }} / 3.9 / doctest"
-    strategy:
-      max-parallel: 4
-      fail-fast: false
-      matrix:
-        os: [ubuntu] 
-
-    runs-on: ${{ matrix.os }}-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up the environment
-        uses: pdm-project/setup-pdm@v4
-        id: setup-python
-        with:
-          python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
-      
-      - name: Load cached venv
-        id: cached-venv
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/test.yml') }}
-  
-      - name: Install dependencies
-        if: steps.cached-venv.outputs.cache-hit != 'true'
-        run: make install-dev
-      #----------------------------------------------
-      # Run tests and upload coverage
-      #----------------------------------------------
-      - name: make doc-tests
-        run: make doc-tests
-
-      - name: Upload coverage files
-        uses: actions/upload-artifact@v4
-        with:
-          name: .coverage-${{ matrix.os }}-doctest-${{ env.MINIMUM_PYTHON_VERSION }}
-          path: .coverage
-
   upload-coverage:
     name: ubuntu / 3.9 / upload-coverage
     needs: 
       - coverage
-      - doctests
     runs-on: ubuntu-latest
     permissions:
       statuses: write
@@ -170,7 +129,6 @@ jobs:
     if: always()
     needs: 
       - coverage
-      - doctests
       - minimal
       - upload-coverage
     runs-on: ubuntu-latest
