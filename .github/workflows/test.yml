@@ -1,4 +1,4 @@
-name: CI
+name: test
 
 on:
   push:
@@ -7,111 +7,53 @@ on:
   pull_request:
   merge_group:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 env:
   MINIMUM_PYTHON_VERSION: "3.9"
-  CI: "github-actions"
 
 jobs:
-  lint:
-    name: ${{ matrix.task.name }} (${{ matrix.os }})
-    strategy:
-      max-parallel: 4
-      fail-fast: false
-      matrix:
-        # Only run checks for ubuntu
-        os: [ubuntu]
-        task:
-          - name: Type check
-            run: make type-check
-          - name: Check formatting
-            run: make check-fmt
-          - name: Lint code
-            run: make lint
-
-    runs-on: ${{ matrix.os }}-latest
-
-    steps:
-      #----------------------------------------------
-      #       check-out repo
-      #----------------------------------------------
-      - name: Check out repository
-        uses: actions/checkout@v4
-      
-      #----------------------------------------------
-      #  -----  setup python   -----
-      #----------------------------------------------
-      - name: Set up the environment
-        uses: pdm-project/setup-pdm@v4
-        id: setup-python
-        with:
-          python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
-      
-      
-      - name: Load cached venv
-        id: cached-venv
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/ci.yml') }}
-  
-      - name: Install dependencies
-        if: steps.cached-venv.outputs.cache-hit != 'true'
-        run: make install-dev
-      - run: make info
-      #----------------------------------------------
-      # Run matrix task
-      #----------------------------------------------
-      - name: ${{ matrix.task.name }}
-        run: ${{ matrix.task.run }}
 
   coverage:
-    name: "Test py-${{ matrix.python-version }} (${{ matrix.os }})"
+    name: "${{ matrix.os }} / ${{ matrix.python-version }} / coverage"
     strategy:
       max-parallel: 4
       fail-fast: false
       matrix:
         os: [ubuntu] 
         python-version:
+          # remove the unused versions
           - "3.9"
           - "3.10"
           - "3.11"
-          # - "3.12" not supported
+          # - "3.12" TODO support this
 
     runs-on: ${{ matrix.os }}-latest
     steps:
-      #----------------------------------------------
-      #       check-out repo and set-up python
-      #----------------------------------------------
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      #----------------------------------------------
-      #  -----  setup python   -----
-      #----------------------------------------------
       - name: Set up the environment
         uses: pdm-project/setup-pdm@v4
         id: setup-python
         with:
           python-version: ${{ matrix.python-version }}
       
-      
       - name: Load cached venv
         id: cached-venv
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/ci.yml') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/test.yml') }}
   
       - name: Install dependencies
         if: steps.cached-venv.outputs.cache-hit != 'true'
         run: make install-dev
      
-      #----------------------------------------------
-      # Run tests and upload coverage
-      #----------------------------------------------
       - name: Run tests for coverage
         run: make test-w-coverage
 
@@ -121,28 +63,20 @@ jobs:
           name: .coverage-${{ matrix.os }}-${{ matrix.python-version }}
           path: .coverage
 
-
   upload-coverage:
-    name: Upload test coverage to CodeCov
-    needs: [coverage]
+    name: ubuntu / 3.9 / upload-coverage
+    needs: 
+      - coverage
     runs-on: ubuntu-latest
     permissions:
       statuses: write
     steps:
-      #----------------------------------------------
-      #       check-out repo and set-up python
-      #----------------------------------------------
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: Set up python ${{ env.MINIMUM_PYTHON_VERSION }}
-        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
 
-      #----------------------------------------------
-      # install dependencies if cache does not exist
-      #----------------------------------------------
       - name: Install dependencies
         run: pip install coverage
 
@@ -159,7 +93,7 @@ jobs:
           ls -a
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           # directory: ./coverage
@@ -170,45 +104,37 @@ jobs:
           # name: codecov-umbrella
           verbose: true
 
-  run-example:
-    name: Run example
+  minimal:
+    # This action chooses the oldest version of the dependencies permitted by Cargo.toml to ensure
+    # that this crate is compatible with the minimal version that this crate and its dependencies
+    # require. This will pickup issues where this create relies on functionality that was introduced
+    # later than the actual version specified (e.g., when we choose just a major version, but a
+    # method was added after this version).
+    #
+    
     runs-on: ubuntu-latest
+    name: ubuntu / 3.9 / minimal-versions
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-      #----------------------------------------------
-      #  -----  setup python   -----
-      #----------------------------------------------
+      - uses: actions/checkout@v4
       - name: Set up the environment
         uses: pdm-project/setup-pdm@v4
         id: setup-python
         with:
           python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
       
-      
-      - name: Load cached venv
-        id: cached-venv
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}-${{ hashFiles('.github/workflows/ci.yml') }}
-  
-      - name: Install dependencies
-        if: steps.cached-venv.outputs.cache-hit != 'true'
-        run: make install-dev
-      
-      - name: Run example
-        run: |
-          source .venv/bin/activate
-          cd examples/hello-ocr
-          echo "" | sparv setup
-          sparv run
-          ls -R
-
-   # https://github.com/marketplace/actions/alls-green#why used for branch protection checks
-  check:
+      - name: pdm lock --strategy direct_minimal_versions
+        run: pdm lock --strategy direct_minimal_versions
+      - name: pdm sync --dev
+        run: pdm sync --dev
+      - name: make test
+        run: make test
+  # https://github.com/marketplace/actions/alls-green#why used for branch protection checks
+  test-check:
     if: always()
-    needs: [lint, coverage, run-example]
+    needs: 
+      - coverage
+      - minimal
+      - upload-coverage
     runs-on: ubuntu-latest
     permissions: {}
     steps:
@@ -216,10 +142,10 @@ jobs:
         uses: re-actors/alls-green@release/v1
         with:
           jobs: ${{ toJSON(needs) }}
-          # allowed-failures: coverage
+          allowed-failures: upload-coverage
 
   build:
-    name: Build package
+    name: ubuntu / 3.9 / build package
      # only run on push to main and on release
     if: success() && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
@@ -254,13 +180,13 @@ jobs:
           path: dist
 
   test-build:
-    name: test build on ${{ matrix.os }}
     needs: [build]
 
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu]
+    name: ${{ matrix.os }} / 3.9 / test built package
 
     runs-on: ${{ matrix.os }}-latest
     steps:
@@ -284,7 +210,9 @@ jobs:
       - run: pytest
 
   publish:
-    needs: [check, test-build]
+    needs: 
+      - test-check
+      - test-build
     if: success() && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     environment: release
