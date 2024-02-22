@@ -19,12 +19,12 @@ DEFAULT_MODEL_NAME = "viklofg/swedish-ocr-correction"
 DEFAULT_TOKENIZER_NAME = "google/byt5-small"
 __config__ = [
     Config(
-        "ocr_suggestion.model",
+        "ocr_correction.model",
         description="Huggingface pretrained model name",
         default=DEFAULT_MODEL_NAME,
     ),
     Config(
-        "ocr_suggestion.tokenizer",
+        "ocr_correction.tokenizer",
         description="HuggingFace pretrained tokenizer name",
         default=DEFAULT_TOKENIZER_NAME,
     ),
@@ -40,16 +40,16 @@ TOK_SEP = " "
 @annotator(
     "Word neighbour tagging with a masked Bert model",
 )
-def annotate_ocr_suggestion(
-    out_ocr_suggestion: Output = Output(
-        "<token>:ocr_suggestion.ocr-suggestion",
-        cls="ocr_suggestion",
+def annotate_ocr_correction(
+    out_ocr_correction: Output = Output(
+        "<token>:ocr_correction.ocr-correction",
+        cls="ocr_correction",
         description="Neighbours from masked BERT (format: '|<word>:<score>|...|)",
     ),
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
-    model_name: str = Config("ocr_suggestion.model"),
-    tokenizer_name: str = Config("ocr_suggestion.tokenizer"),
+    model_name: str = Config("ocr_correction.model"),
+    tokenizer_name: str = Config("ocr_correction.tokenizer"),
 ) -> None:
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     model = T5ForConditionalGeneration.from_pretrained(model_name)
@@ -57,18 +57,18 @@ def annotate_ocr_suggestion(
 
     sentences, _orphans = sentence.get_children(word)
     token_word = list(word.read())
-    out_ocr_suggestion_annotation = word.create_empty_attribute()
+    out_ocr_correction_annotation = word.create_empty_attribute()
 
     logger.progress(total=len(sentences))  # type: ignore
     for sent in sentences:
         logger.progress()  # type: ignore
         sent_to_tag = [token_word[token_index] for token_index in sent]
 
-        ocr_suggestions = ocr_suggestor.calculate_suggestions(sent_to_tag)
-        out_ocr_suggestion_annotation[:] = ocr_suggestions
+        ocr_corrections = ocr_suggestor.calculate_suggestions(sent_to_tag)
+        out_ocr_correction_annotation[:] = ocr_corrections
 
     logger.info("writing annotations")
-    out_ocr_suggestion.write(out_ocr_suggestion_annotation)
+    out_ocr_correction.write(out_ocr_correction_annotation)
 
 
 class OcrSuggestor:
@@ -86,7 +86,7 @@ class OcrSuggestor:
         parts = []
         curr_part: list[str] = []
         curr_len = 0
-        ocr_suggestions: list[str] = []
+        ocr_corrections: list[str] = []
         for word in text:
             len_word = bytes_length(word)
             if (curr_len + len_word + 1) > self.TEXT_LIMIT:
@@ -101,11 +101,11 @@ class OcrSuggestor:
             suggested_text = self.pipeline(part)[0]["generated_text"]
             suggested_text = suggested_text.replace(",", " ,")
             suggested_text = suggested_text.replace(".", " .")
-            ocr_suggestions = ocr_suggestions + suggested_text.split(TOK_SEP)
+            ocr_corrections = ocr_corrections + suggested_text.split(TOK_SEP)
 
-        if len(text) == len(ocr_suggestions) + 1 and text[-1] != ocr_suggestions[-1]:
-            ocr_suggestions.append(text[-1])
-        return zip_and_diff(text, ocr_suggestions)
+        if len(text) == len(ocr_corrections) + 1 and text[-1] != ocr_corrections[-1]:
+            ocr_corrections.append(text[-1])
+        return zip_and_diff(text, ocr_corrections)
 
 
 def zip_and_diff(orig: list[str], sugg: list[str]) -> list[Optional[str]]:

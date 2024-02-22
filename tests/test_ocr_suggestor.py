@@ -1,4 +1,4 @@
-from ocr_suggestion import OcrSuggestor
+from ocr_correction import OcrSuggestor
 
 
 def test_short_text(ocr_suggestor: OcrSuggestor):

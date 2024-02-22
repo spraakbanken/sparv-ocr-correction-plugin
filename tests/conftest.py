@@ -1,5 +1,5 @@
 import pytest
-from ocr_suggestion import (
+from ocr_correction import (
     DEFAULT_MODEL_NAME,
     DEFAULT_TOKENIZER_NAME,
     OcrSuggestor,

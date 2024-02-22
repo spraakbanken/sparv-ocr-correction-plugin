@@ -1,5 +1,5 @@
 [project]
-name = "sparv-ocr-suggestion-plugin"
+name = "sparv-ocr-correction-plugin"
 version = "0.1.0"
 description = "A sparv plugin for computing suggested OCR improvements."
 authors = [
@@ -30,18 +30,18 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.entry-points."sparv.plugin"]
-ocr_suggestion = "ocr_suggestion"
+ocr_correction = "ocr_correction"
 
 [project.urls]
 Homepage = "https://spraakbanken.gu.se"
-Repository = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin"
-"Bug Tracker" = "https://github.com/spraakbanken/sparv-ocr-suggestion-plugin/issues"
+Repository = "https://github.com/spraakbanken/sparv-ocr-correction-plugin"
+"Bug Tracker" = "https://github.com/spraakbanken/sparv-ocr-correction-plugin/issues"
 
 [tool.hatch.build.targets.sdist]
 exclude = ["/.github", "/docs"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/ocr_suggestion"]
+packages = ["src/ocr_correction"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
