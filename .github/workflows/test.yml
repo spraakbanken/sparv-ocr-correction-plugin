@@ -34,6 +34,9 @@ jobs:
           # - "3.12" TODO support this
 
     runs-on: ${{ matrix.os }}-latest
+    env:
+      OS: ${{ matrix.os }}-latest
+      PYTHON: ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -55,50 +58,15 @@ jobs:
         run: make install-dev
      
       - name: Run tests for coverage
-        run: make test-w-coverage
-
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: .coverage-${{ matrix.os }}-${{ matrix.python-version }}
-          path: .coverage
-
-  upload-coverage:
-    name: ubuntu / 3.9 / upload-coverage
-    needs: 
-      - coverage
-    runs-on: ubuntu-latest
-    permissions:
-      statuses: write
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up python ${{ env.MINIMUM_PYTHON_VERSION }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
-
-      - name: Install dependencies
-        run: pip install coverage
-
-      - name: Download coverage artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: .coverage-*
-
-      - name: convert coverage to xml
-        run: |
-          ls -aR
-          coverage combine .coverage*/.coverage
-          coverage xml -i 
-          ls -a
+        run: make test-w-coverage cov_report=xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           # directory: ./coverage
-          # env_vars: OS,PYTHON
-          fail_ci_if_error: false
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
           # files: ./coverage/coverage.xml
           # flags: unittests
           # name: codecov-umbrella
@@ -169,7 +137,6 @@ jobs:
     needs: 
       - coverage
       - minimal
-      - upload-coverage
       - run-example
     runs-on: ubuntu-latest
     permissions: {}
@@ -178,7 +145,6 @@ jobs:
         uses: re-actors/alls-green@release/v1
         with:
           jobs: ${{ toJSON(needs) }}
-          allowed-failures: upload-coverage
 
   build:
     name: ubuntu / 3.9 / build package
