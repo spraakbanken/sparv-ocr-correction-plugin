@@ -1,7 +1,7 @@
-from ocr_correction import OcrSuggestor
+from ocr_correction import OcrCorrector
 
 
-def test_short_text(ocr_suggestor: OcrSuggestor):
+def test_short_text(ocr_corrector: OcrCorrector):
     text = [
         "Den",
         "i",
@@ -16,7 +16,7 @@ def test_short_text(ocr_suggestor: OcrSuggestor):
         "Frölnndaviken",
         ".",
     ]
-    actual = ocr_suggestor.calculate_suggestions(text)
+    actual = ocr_corrector.calculate_corrections(text)
 
     expected = [
         None,
@@ -35,7 +35,7 @@ def test_short_text(ocr_suggestor: OcrSuggestor):
     assert actual == expected
 
 
-def test_long_text(ocr_suggestor: OcrSuggestor):
+def test_long_text(ocr_corrector: OcrCorrector):
     text1 = [
         "Förvaltningen",
         "af",
@@ -71,8 +71,8 @@ def test_long_text(ocr_suggestor: OcrSuggestor):
     # blifvit dertill utsedd; tillkommande Fullmäktige att sjelfva bland sig välja en
     # vice Ordförande att föra ordet, när hinder för Ordföranden inträffar."""
     # print(f"{len(text2)=}, {len(text2.encode())=}")
-    actual = ocr_suggestor.calculate_suggestions(text1)
-    # actual = ocr_suggestor.calculate_suggestions(text2)
+    actual = ocr_corrector.calculate_corrections(text1)
+    # actual = ocr_corrector.calculate_corrections(text2)
 
     expected = [
         None,

@@ -3,7 +3,7 @@
 [![CI](https://github.com/spraakbanken/sparv-ocr-correction-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/spraakbanken/sparv-ocr-correction-plugin/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/sparv-ocr-correction-plugin.svg)](https://pypi.org/project/sparv-ocr-correction-plugin)
 
-Sparv plugin to annotate suggestions to OCR:ed documents.
+Sparv plugin to annotate corrections to OCR:ed documents.
 
 ## Install
 

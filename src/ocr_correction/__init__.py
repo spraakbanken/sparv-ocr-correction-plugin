@@ -2,7 +2,6 @@ from typing import Optional
 
 from sparv.api import (  # type: ignore [import-untyped]
     Annotation,
-    Config,
     Output,
     annotator,
     get_logger,
@@ -17,18 +16,7 @@ __description__ = "Calculating word neighbours by mask a word in a BERT model."
 
 DEFAULT_MODEL_NAME = "viklofg/swedish-ocr-correction"
 DEFAULT_TOKENIZER_NAME = "google/byt5-small"
-__config__ = [
-    Config(
-        "ocr_correction.model",
-        description="Huggingface pretrained model name",
-        default=DEFAULT_MODEL_NAME,
-    ),
-    Config(
-        "ocr_correction.tokenizer",
-        description="HuggingFace pretrained tokenizer name",
-        default=DEFAULT_TOKENIZER_NAME,
-    ),
-]
+
 
 __version__ = "0.1.0"
 
@@ -42,18 +30,18 @@ TOK_SEP = " "
 )
 def annotate_ocr_correction(
     out_ocr_correction: Output = Output(
-        "<token>:ocr_correction.ocr-correction",
+        "<token>:ocr_correction.ocr-correction--viklofg-swedish-ocr",
         cls="ocr_correction",
         description="Neighbours from masked BERT (format: '|<word>:<score>|...|)",
     ),
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
-    model_name: str = Config("ocr_correction.model"),
-    tokenizer_name: str = Config("ocr_correction.tokenizer"),
 ) -> None:
+    tokenizer_name = DEFAULT_TOKENIZER_NAME
+    model_name = DEFAULT_MODEL_NAME
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     model = T5ForConditionalGeneration.from_pretrained(model_name)
-    ocr_suggestor = OcrSuggestor(model=model, tokenizer=tokenizer)
+    ocr_corrector = OcrCorrector(model=model, tokenizer=tokenizer)
 
     sentences, _orphans = sentence.get_children(word)
     token_word = list(word.read())
@@ -64,14 +52,14 @@ def annotate_ocr_correction(
         logger.progress()  # type: ignore
         sent_to_tag = [token_word[token_index] for token_index in sent]
 
-        ocr_corrections = ocr_suggestor.calculate_suggestions(sent_to_tag)
+        ocr_corrections = ocr_corrector.calculate_corrections(sent_to_tag)
         out_ocr_correction_annotation[:] = ocr_corrections
 
     logger.info("writing annotations")
     out_ocr_correction.write(out_ocr_correction_annotation)
 
 
-class OcrSuggestor:
+class OcrCorrector:
     TEXT_LIMIT: int = 127
 
     def __init__(self, *, tokenizer, model) -> None:
@@ -81,7 +69,7 @@ class OcrSuggestor:
             "text2text-generation", model=model, tokenizer=tokenizer
         )
 
-    def calculate_suggestions(self, text: list[str]) -> list[Optional[str]]:
+    def calculate_corrections(self, text: list[str]) -> list[Optional[str]]:
         logger.debug("Analyzing '%s'", text)
         parts = []
         curr_part: list[str] = []
