@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 env:
-  MINIMUM_PYTHON_VERSION: "3.8"
+  MINIMUM_PYTHON_VERSION: "3.9"
 
 jobs:
 
@@ -87,7 +87,7 @@ jobs:
     #
     
     runs-on: ubuntu-latest
-    name: ubuntu / 3.8 / minimal-versions
+    name: ubuntu / 3.9 / minimal-versions
     steps:
       - uses: actions/checkout@v4
         with:
@@ -135,7 +135,7 @@ jobs:
       - name: Run example
         run: |
           source .venv/bin/activate
-          cd examples/hello-ocr
+          cd examples/ocr-correction-viklofg-sweocr
           echo "" | sparv setup
           sparv run
           ls -R
