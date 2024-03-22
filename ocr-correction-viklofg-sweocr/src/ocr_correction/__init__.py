@@ -30,8 +30,8 @@ TOK_SEP = " "
 )
 def annotate_ocr_correction(
     out_ocr_correction: Output = Output(
-        "<token>:ocr_correction.ocr-correction--viklofg-swedish-ocr",
-        cls="ocr_correction",
+        "<token>:ocr_correction_viklofg_sweocr.ocr-correction--viklofg-swedish-ocr",
+        cls="ocr_correction_viklofg_sweocr",
         description="Neighbours from masked BERT (format: '|<word>:<score>|...|)",
     ),
     word: Annotation = Annotation("<token:word>"),

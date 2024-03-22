@@ -10,7 +10,7 @@ export:
         - <sentence>
         # - <token:word>
         - <token>:stanza.pos
-        - <token>:ocr_correction.ocr-correction--viklofg-swedish-ocr
+        - <token>:ocr_correction_viklofg_sweocr.ocr-correction--viklofg-swedish-ocr
 
 sparv:
     compression: none

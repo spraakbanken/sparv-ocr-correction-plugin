@@ -1,0 +1,15 @@
+[project]
+name = "sparv-sbx-ocr-correction-workspace"
+dependencies = []
+requires-python = ">=3.9,<3.12"
+version = "0.0.0"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "-e ocr-correction-viklofg-sweocr @ file:///${PROJECT_ROOT}/ocr-correction-viklofg-sweocr",
+    "pytest>=8.1.1",
+    "pytest-cov>=4.1.0",
+    "mypy>=1.9.0",
+    "ruff>=0.3.2",
+    "bump-my-version>=0.19.0",
+]

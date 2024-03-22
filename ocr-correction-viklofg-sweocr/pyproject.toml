@@ -1,5 +1,5 @@
 [project]
-name = "sparv-ocr-correction-plugin"
+name = "sparv-sbx-ocr-correction-viklofg-sweocr"
 version = "0.1.0"
 description = "A sparv plugin for computing suggested OCR improvements."
 authors = [
@@ -31,18 +31,18 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.entry-points."sparv.plugin"]
-ocr_correction = "ocr_correction"
+ocr_correction_viklofg_sweocr = "ocr_correction_viklofg_sweocr"
 
 [project.urls]
 Homepage = "https://spraakbanken.gu.se"
-Repository = "https://github.com/spraakbanken/sparv-ocr-correction-plugin"
-"Bug Tracker" = "https://github.com/spraakbanken/sparv-ocr-correction-plugin/issues"
+Repository = "https://github.com/spraakbanken/sparv-sbx-ocr-correction"
+"Bug Tracker" = "https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues"
 
 [tool.hatch.build.targets.sdist]
 exclude = ["/.github", "/docs"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/ocr_correction"]
+packages = ["src/ocr_correction_viklofg_sweocr"]
 
 [tool.hatch.metadata]
 allow-direct-references = true

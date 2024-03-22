@@ -57,8 +57,8 @@ help:
 	@echo ""
 
 PLATFORM := `uname -o`
-REPO := "sparv-ocr-correction-plugin"
-PROJECT_SRC := "src/ocr_correction"
+REPO := "sparv-sbx-ocr-correction"
+PROJECT_SRC := "ocr-correction-viklofg-sweocr/src"
 
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
@@ -72,8 +72,8 @@ default_cov := "--cov=${PROJECT_SRC}"
 cov_report := "term-missing"
 cov := ${default_cov}
 
-all_tests := tests
-tests := tests
+all_tests := ocr-correction-viklofg-sweocr/tests
+tests := ocr-correction-viklofg-sweocr/tests
 
 info:
 	@echo "Platform: ${PLATFORM}"
@@ -147,3 +147,15 @@ prepare-release: tests/requirements-testing.lock
 # we use lock extension so that dependabot doesn't pick up changes in this file
 tests/requirements-testing.lock: pyproject.toml
 	pdm export --dev --format requirements --output $@
+
+.PHONY: kb-bert-prepare-release
+kb-bert-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
+
+update-changelog: CHANGELOG.md ocr-correction-viklofg-sweocr/CHANGELOG.md
+
+CHANGELOG.md:
+	git cliff --unreleased --prepend $@
+
+.PHONY: ocr-correction-viklofg-sweocr/CHANGELOG.md
+ocr-correction-viklofg-sweocr/CHANGELOG.md:
+	git cliff --unreleased --include-path "ocr-correction-viklofg-sweocr/**/*" --include-path "examples/ocr-correction-viklofg-sweocr/**/*" --prepend $@

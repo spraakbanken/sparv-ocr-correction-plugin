@@ -1,7 +1,7 @@
-# sparv-ocr-correction-plugin
+# sparv-sbx-ocr-correction
 
-[![CI](https://github.com/spraakbanken/sparv-ocr-correction-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/spraakbanken/sparv-ocr-correction-plugin/actions/workflows/ci.yml)
-[![PyPI version](https://badge.fury.io/py/sparv-ocr-correction-plugin.svg)](https://pypi.org/project/sparv-ocr-correction-plugin)
+[![CI](https://github.com/spraakbanken/sparv-sbx-ocr-correction/actions/workflows/ci.yml/badge.svg)](https://github.com/spraakbanken/sparv-sbx-ocr-correction/actions/workflows/ci.yml)
+[![PyPI version](https://badge.fury.io/py/sparv-sbx-ocr-correction.svg)](https://pypi.org/project/sparv-sbx-ocr-correction)
 
 Sparv plugin to annotate corrections to OCR:ed documents.
 
@@ -10,11 +10,11 @@ Sparv plugin to annotate corrections to OCR:ed documents.
 In a virtual environment:
 
 ```bash
-pip install sparv-ocr-correction-plugin
+pip install sparv-sbx-ocr-correction
 ```
 
 or if you have `sparv` installed with `pipx`:
 
 ```bash
-pipx inject sparv-pipeline sparv-ocr-correction-plugin
+pipx inject sparv-pipeline sparv-sbx-ocr-correction
 ```

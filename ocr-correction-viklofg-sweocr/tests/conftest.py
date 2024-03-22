@@ -1,5 +1,5 @@
 import pytest
-from ocr_correction import (
+from ocr_correction_viklofg_sweocr import (
     DEFAULT_MODEL_NAME,
     DEFAULT_TOKENIZER_NAME,
     OcrCorrector,
