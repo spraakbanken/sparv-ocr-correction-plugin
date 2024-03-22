@@ -30,7 +30,7 @@ TOK_SEP = " "
 )
 def annotate_ocr_correction(
     out_ocr_correction: Output = Output(
-        "<token>:ocr_correction_viklofg_sweocr.ocr-correction--viklofg-swedish-ocr",
+        "<token>:ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
         cls="ocr_correction_viklofg_sweocr",
         description="Neighbours from masked BERT (format: '|<word>:<score>|...|)",
     ),
