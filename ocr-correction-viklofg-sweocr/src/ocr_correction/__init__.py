@@ -14,8 +14,10 @@ from transformers import (  # type: ignore [import-untyped]
 
 __description__ = "Calculating word neighbours by mask a word in a BERT model."
 
-DEFAULT_MODEL_NAME = "viklofg/swedish-ocr-correction"
-DEFAULT_TOKENIZER_NAME = "google/byt5-small"
+MODEL_NAME = "viklofg/swedish-ocr-correction"
+MODEL_REVISION = "84b138048992271be7617ccb11056bbcb9b72262"
+TOKENIZER_NAME = "google/byt5-small"
+TOKENIZER_REVISION = "68377bdc18a2ffec8a0533fef03b1c513a4dd49d"
 
 
 __version__ = "0.1.0"
@@ -32,15 +34,17 @@ def annotate_ocr_correction(
     out_ocr_correction: Output = Output(
         "<token>:ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
         cls="ocr_correction_viklofg_sweocr",
-        description="Neighbours from masked BERT (format: '|<word>:<score>|...|)",
+        description="OCR Corrections from viklfog/swedish-ocr (format: '|<word>:<score>|...|)",  # noqa: E501
     ),
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
 ) -> None:
-    tokenizer_name = DEFAULT_TOKENIZER_NAME
-    model_name = DEFAULT_MODEL_NAME
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
-    model = T5ForConditionalGeneration.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(
+        TOKENIZER_NAME, revision=TOKENIZER_REVISION
+    )
+    model = T5ForConditionalGeneration.from_pretrained(
+        MODEL_NAME, revision=MODEL_REVISION
+    )
     ocr_corrector = OcrCorrector(model=model, tokenizer=tokenizer)
 
     sentences, _orphans = sentence.get_children(word)

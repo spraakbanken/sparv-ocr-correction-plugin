@@ -20,3 +20,16 @@ or if you have `sparv` installed with `pipx`:
 ```bash
 pipx inject sparv-pipeline sparv-sbx-ocr-correction
 ```
+
+## Metadata
+
+### Model
+
+Type | HuggingFace Model | Revision
+--- | --- | ---
+Model | [`viklofg/swedish-ocr-correction`](https://huggingface.co/viklofg/swedish-ocr-correction) | 84b138048992271be7617ccb11056bbcb9b72262
+Tokenizer | [`google/byt5-small`](https://huggingface.co/google/byt5-small) | 68377bdc18a2ffec8a0533fef03b1c513a4dd49d
+
+## Changelog
+
+This project keeps a [changelog](./CHANGELOG.md).
