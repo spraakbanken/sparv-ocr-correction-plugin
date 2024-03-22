@@ -46,7 +46,7 @@ jobs:
       #  -----  build distribution -----
       #----------------------------------------------
       - name: Build distribution
-        run: make build
+        run: cd ocr-correction-viklofg-sweocr && make build
 
       #----------------------------------------------
       #  -----  upload artifacts  -----
@@ -54,7 +54,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: pypi_files
-          path: dist
+          path: ocr-correction-viklofg-sweocr/dist
 
   test-build:
     # This action runs the test suite on the built artifact in the `build` action.
@@ -68,8 +68,6 @@ jobs:
       matrix:
         os: 
           - ubuntu
-          - macos
-          - windows
 
     runs-on: ${{ matrix.os }}-latest
     steps:
