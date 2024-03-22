@@ -31,7 +31,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.entry-points."sparv.plugin"]
-ocr_correction_viklofg_sweocr = "ocr_correction_viklofg_sweocr"
+sbx_ocr_correction_viklofg_sweocr = "sbx_ocr_correction_viklofg_sweocr"
 
 [project.urls]
 Homepage = "https://spraakbanken.gu.se"
@@ -42,7 +42,7 @@ Repository = "https://github.com/spraakbanken/sparv-sbx-ocr-correction"
 exclude = ["/.github", "/docs"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/ocr_correction_viklofg_sweocr"]
+packages = ["src/sbx_ocr_correction_viklofg_sweocr"]
 
 [tool.hatch.metadata]
 allow-direct-references = true

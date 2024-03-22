@@ -32,8 +32,8 @@ TOK_SEP = " "
 )
 def annotate_ocr_correction(
     out_ocr_correction: Output = Output(
-        "<token>:ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
-        cls="ocr_correction_viklofg_sweocr",
+        "<token>:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
+        cls="sbx_ocr_correction_viklofg_sweocr",
         description="OCR Corrections from viklfog/swedish-ocr (format: '|<word>:<score>|...|)",  # noqa: E501
     ),
     word: Annotation = Annotation("<token:word>"),

@@ -22,6 +22,6 @@ search = '## [unreleased]'
 replace = '## [{new_version}] - {now:%Y-%m-%d}'
 
 [[tool.bumpversion.files]]
-filename = "src/ocr_correction_viklofg_sweocr/__init__.py"
+filename = "src/sbx_ocr_correction_viklofg_sweocr/__init__.py"
 search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
