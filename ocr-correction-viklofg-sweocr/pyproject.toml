@@ -1,0 +1,60 @@
+[project]
+name = "sparv-sbx-ocr-correction-viklofg-sweocr"
+version = "0.1.0"
+description = "A sparv plugin for computing suggested OCR improvements."
+authors = [
+    { name = "Kristoffer Andersson", email = "kristoffer.andersson@gu.se" },
+]
+dependencies = ["sparv-pipeline >=5.2.0", "transformers>=4.34.1"]
+license = { text = "MIT" }
+readme = "README.md"
+# TODO sparv-pipeline doesn't support python 3.12 yet
+requires-python = ">=3.9,<3.12"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    # "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    # "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: Implementation :: CPython",
+    # "uncomment if you test on these interpreters:",
+    # "Programming Language :: Python :: Implementation :: IronPython",
+    # "Programming Language :: Python :: Implementation :: Jython",
+    # "Programming Language :: Python :: Implementation :: Stackless",
+    "Topic :: Utilities",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.entry-points."sparv.plugin"]
+sbx_ocr_correction_viklofg_sweocr = "sbx_ocr_correction_viklofg_sweocr"
+
+[project.urls]
+Homepage = "https://spraakbanken.gu.se"
+Repository = "https://github.com/spraakbanken/sparv-sbx-ocr-correction"
+"Bug Tracker" = "https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/.github", "/docs"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sbx_ocr_correction_viklofg_sweocr"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=7.4.4",
+    "mypy>=1.8.0",
+    "bump2version>=1.0.1",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.14",
+]

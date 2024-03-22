@@ -22,9 +22,11 @@ concurrency:
 jobs:
   fmt:
     runs-on: ubuntu-latest
-    name: ubuntu / fmt
+    name: ubuntu / 3.9 / fmt
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Set up the python ${{ env.MINIMUM_PYTHON_VERSION }}
         uses: pdm-project/setup-pdm@v4
@@ -47,9 +49,11 @@ jobs:
         run: make check-fmt
   lint:
     runs-on: ubuntu-latest
-    name: ubuntu / lint
+    name: ubuntu / 3.9 / lint
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Set up the python ${{ env.MINIMUM_PYTHON_VERSION }}
         uses: pdm-project/setup-pdm@v4
         id: setup-python
@@ -68,9 +72,11 @@ jobs:
         run: make lint
   type-check:
     runs-on: ubuntu-latest
-    name: ubuntu / type-check
+    name: ubuntu / 3.9 / type-check
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Set up the python ${{ env.MINIMUM_PYTHON_VERSION }}
         uses: pdm-project/setup-pdm@v4
         id: setup-python
@@ -86,7 +92,7 @@ jobs:
         if: steps.cached-venv.outputs.cache-hit != 'true'
         run: make install-dev
       - name: type-check code
-        run: make lint
+        run: make type-check
 
   # https://github.com/marketplace/actions/alls-green#why used for branch protection checks
   check-check:

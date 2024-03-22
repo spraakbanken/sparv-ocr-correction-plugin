@@ -58,7 +58,7 @@ help:
 
 PLATFORM := `uname -o`
 REPO := "sparv-sbx-ocr-correction"
-PROJECT_SRC := "ocr-correction-viklofg-sweocr/src"
+PROJECT_SRC := "src/ocr_correction_viklofg_sweocr"
 
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
@@ -72,8 +72,8 @@ default_cov := "--cov=${PROJECT_SRC}"
 cov_report := "term-missing"
 cov := ${default_cov}
 
-all_tests := ocr-correction-viklofg-sweocr/tests
-tests := ocr-correction-viklofg-sweocr/tests
+all_tests := tests
+tests := tests
 
 info:
 	@echo "Platform: ${PLATFORM}"
