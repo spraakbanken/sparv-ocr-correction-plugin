@@ -7,4 +7,4 @@
 
 This repo contains the following projects:
 
-- [sparv-sbx-ocr-correction-viklofg-sweocr](./ocr-correction-viklofg-sweocr/) [![PyPI version](https://badge.fury.io/py/sparv-sbx-ocr-correction.svg)](https://pypi.org/project/sparv-sbx-ocr-correction)
+- [sparv-sbx-ocr-correction-viklofg-sweocr](./ocr-correction-viklofg-sweocr/) [![PyPI version](https://badge.fury.io/py/sparv-sbx-ocr-correction-viklofg-sweocr.svg)](https://pypi.org/project/sparv-sbx-ocr-correction-viklofg-sweocr)
