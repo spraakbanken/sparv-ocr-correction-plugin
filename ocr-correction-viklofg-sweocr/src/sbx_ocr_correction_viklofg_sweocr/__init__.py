@@ -39,13 +39,7 @@ def annotate_ocr_correction(
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
 ) -> None:
-    tokenizer = AutoTokenizer.from_pretrained(
-        TOKENIZER_NAME, revision=TOKENIZER_REVISION
-    )
-    model = T5ForConditionalGeneration.from_pretrained(
-        MODEL_NAME, revision=MODEL_REVISION
-    )
-    ocr_corrector = OcrCorrector(model=model, tokenizer=tokenizer)
+    ocr_corrector = OcrCorrector.default()
 
     sentences, _orphans = sentence.get_children(word)
     token_word = list(word.read())
@@ -72,6 +66,16 @@ class OcrCorrector:
         self.pipeline = pipeline(
             "text2text-generation", model=model, tokenizer=tokenizer
         )
+
+    @classmethod
+    def default(cls) -> "OcrCorrector":
+        tokenizer = AutoTokenizer.from_pretrained(
+            TOKENIZER_NAME, revision=TOKENIZER_REVISION
+        )
+        model = T5ForConditionalGeneration.from_pretrained(
+            MODEL_NAME, revision=MODEL_REVISION
+        )
+        return cls(model=model, tokenizer=tokenizer)
 
     def calculate_corrections(self, text: list[str]) -> list[Optional[str]]:
         logger.debug("Analyzing '%s'", text)
