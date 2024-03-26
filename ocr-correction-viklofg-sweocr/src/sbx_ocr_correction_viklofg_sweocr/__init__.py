@@ -27,9 +27,7 @@ logger = get_logger(__name__)
 TOK_SEP = " "
 
 
-@annotator(
-    "Word neighbour tagging with a masked Bert model",
-)
+@annotator("Word neighbour tagging with a masked Bert model", language=["swe"])
 def annotate_ocr_correction(
     out_ocr_correction: Output = Output(
         "<token>:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
