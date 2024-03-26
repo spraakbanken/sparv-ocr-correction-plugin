@@ -1,9 +1,13 @@
 # sparv-sbx-ocr-correction
 
-[![PyPI version](https://badge.fury.io/py/sparv-sbx-ocr-correction.svg)](https://pypi.org/project/sparv-sbx-ocr-correction)
+[![PyPI version](https://badge.fury.io/py/sparv-sbx-ocr-correction-viklofg-sweocr.svg)](https://pypi.org/project/sparv-sbx-ocr-correction-viklofg-sweocr)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/sparv-sbx-ocr-correction-viklofg-sweocr)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/sparv-sbx-ocr-correction-viklofg-sweocr)](https://pypi.org/project/sparv-sbx-ocr-correction-viklofg-sweocr/)
 
 [![Maturity badge - level 2](https://img.shields.io/badge/Maturity-Level%202%20--%20First%20Release-yellowgreen.svg)](https://github.com/spraakbanken/getting-started/blob/main/scorecard.md)
 [![Stage](https://img.shields.io/pypi/status/sparv-sbx-ocr-correction-viklofg-sweocr)](https://pypi.org/project/sparv-sbx-ocr-correction-viklofg-sweocr)
+
+[![CI(release)](https://github.com/spraakbanken/sparv-sbx-ocr-correction/actions/workflows/release-viklofg-sweocr.yml/badge.svg)](https://github.com/spraakbanken/sparv-sbx-ocr-correction/actions/workflows/release-viklofg-sweocr.yml)
 
 Sparv plugin to annotate corrections to OCR:ed documents.
 
@@ -12,13 +16,13 @@ Sparv plugin to annotate corrections to OCR:ed documents.
 In a virtual environment:
 
 ```bash
-pip install sparv-sbx-ocr-correction
+pip install sparv-sbx-ocr-correction-viklofg-sweocr
 ```
 
 or if you have `sparv` installed with `pipx`:
 
 ```bash
-pipx inject sparv-pipeline sparv-sbx-ocr-correction
+pipx inject sparv-pipeline sparv-sbx-ocr-correction-viklofg-sweocr
 ```
 
 ## Metadata
