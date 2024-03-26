@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🐛 Bug Fixes
+
+- Add language to annotation
+
 ## [0.2.0] - 2024-03-26
 
 ### 🚀 Features
