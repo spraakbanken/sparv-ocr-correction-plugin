@@ -8,8 +8,7 @@ authors = [
 dependencies = ["sparv-pipeline >=5.2.0", "transformers>=4.34.1"]
 license = { text = "MIT" }
 readme = "README.md"
-# TODO sparv-pipeline doesn't support python 3.12 yet
-requires-python = ">=3.9,<3.12"
+requires-python = ">=3.9"
 classifiers = [
     "Development Status :: 4 - Beta",
     # "Development Status :: 5 - Production/Stable",
@@ -53,8 +52,4 @@ distribution = true
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=7.4.4",
-    "mypy>=1.8.0",
-    "bump2version>=1.0.1",
-    "pytest-cov>=4.1.0",
-    "ruff>=0.1.14",
 ]
