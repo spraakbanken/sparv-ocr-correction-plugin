@@ -20,7 +20,7 @@ TOKENIZER_NAME = "google/byt5-small"
 TOKENIZER_REVISION = "68377bdc18a2ffec8a0533fef03b1c513a4dd49d"
 
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 logger = get_logger(__name__)
 
