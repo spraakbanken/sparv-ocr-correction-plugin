@@ -10,7 +10,8 @@ license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 3 - Alpha",
+    # "Development Status :: 4 - Beta",
     # "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
@@ -35,7 +36,7 @@ sbx_ocr_correction_viklofg_sweocr = "sbx_ocr_correction_viklofg_sweocr"
 [project.urls]
 Homepage = "https://spraakbanken.gu.se"
 Repository = "https://github.com/spraakbanken/sparv-sbx-ocr-correction"
-"Bug Tracker" = "https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues"
+"Bug Tracker" = "https://github.com/spraakbanken/sparv-sbx-ocr-correction/labels/project%3Aocr-correction-viklofg-sweocr"
 
 [tool.hatch.build.targets.sdist]
 exclude = ["/.github", "/docs"]
