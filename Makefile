@@ -149,7 +149,7 @@ tests/requirements-testing.lock: pyproject.toml
 	pdm export --dev --format requirements --output $@
 
 .PHONY: kb-bert-prepare-release
-kb-bert-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
+viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
 
 update-changelog: CHANGELOG.md ocr-correction-viklofg-sweocr/CHANGELOG.md
 
