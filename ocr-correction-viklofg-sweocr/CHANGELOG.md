@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🚀 Features
+
+- Add support for python 3.8
+- Don't support 3.12
+
 ## [0.2.1] - 2024-03-26
 
 ### 🐛 Bug Fixes
