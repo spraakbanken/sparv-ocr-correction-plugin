@@ -107,8 +107,16 @@ jobs:
         run: make test
 
   run-example:
-    name: Run example
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }} / 3.8 / example / ${{ matrix.example }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix:
+        os: [ubuntu] 
+        example:
+          - "ocr-correction-viklofg-sweocr"
+          - "christoph-borg"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -136,7 +144,7 @@ jobs:
       - name: Run example
         run: |
           source .venv/bin/activate
-          cd examples/ocr-correction-viklofg-sweocr
+          cd examples/${{ matrix.example }}
           echo "" | sparv setup
           sparv run
           ls -R
