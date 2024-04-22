@@ -20,14 +20,30 @@ def annotate_ocr_correction(
     sentences, _orphans = sentence.get_children(word)
     token_word = list(word.read())
     out_ocr_correction_annotation = word.create_empty_attribute()
+    logger.debug(
+        "len(out_ocr_correction_annotation) = %d", len(out_ocr_correction_annotation)
+    )
 
     logger.progress(total=len(sentences))  # type: ignore
     for sent in sentences:
         logger.progress()  # type: ignore
         sent_to_tag = [token_word[token_index] for token_index in sent]
+        logger.debug("sent = %s", sent)
+        logger.debug("len(sent) = %d", len(sent))
 
         ocr_corrections = ocr_corrector.calculate_corrections(sent_to_tag)
-        out_ocr_correction_annotation[:] = ocr_corrections
+        logger.debug("len(ocr_corrections) = %d", len(ocr_corrections))
+        logger.debug("ocr_corrections = %s", ocr_corrections)
+        for i, ocr_correction in enumerate(ocr_corrections, start=sent[0]):
+            out_ocr_correction_annotation[i] = ocr_correction
+        logger.debug(
+            "len(out_ocr_correction_annotation) = %d",
+            len(out_ocr_correction_annotation),
+        )
+        logger.debug(
+            "out_ocr_correction_annotation = %s",
+            out_ocr_correction_annotation[sent[0] : sent[-1]],
+        )
 
     logger.info("writing annotations")
     out_ocr_correction.write(out_ocr_correction_annotation)
