@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:0e587d3bb95fcdfb7c8c525835c9900d7f1a023c2a43637f44742160684f278f"
+content_hash = "sha256:50a2781e51fac41188f5555c706b171fe03e95665d6166b4a7756568cc69224b"
 
 [[package]]
 name = "annotated-types"
@@ -234,6 +234,15 @@ marker = "sys_platform == \"win32\" or platform_system == \"Windows\""
 files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+]
+
+[[package]]
+name = "colored"
+version = "1.4.4"
+summary = "Simple library for color and formatting to terminal"
+groups = ["dev"]
+files = [
+    {file = "colored-1.4.4.tar.gz", hash = "sha256:04ff4d4dd514274fe3b99a21bb52fb96f2688c01e93fba7bef37221e7cb56ce0"},
 ]
 
 [[package]]
@@ -2126,6 +2135,22 @@ dependencies = [
 files = [
     {file = "sympy-1.12-py3-none-any.whl", hash = "sha256:c3588cd4295d0c0f603d0f2ae780587e64e2efeedb3521e46b9bb1d08d184fa5"},
     {file = "sympy-1.12.tar.gz", hash = "sha256:ebf595c8dac3e0fdc4152c51878b498396ec7f30e7a914d6071e674d49420fb8"},
+]
+
+[[package]]
+name = "syrupy"
+version = "0.0.15"
+requires_python = "~=3.6"
+summary = "PyTest Snapshot Test Utility"
+groups = ["dev"]
+dependencies = [
+    "attrs>=18.2.0",
+    "colored",
+    "typing-extensions>=3.6",
+]
+files = [
+    {file = "syrupy-0.0.15-py3-none-any.whl", hash = "sha256:03da7423004e1b3a2d8334baca40641a0e4a283b9f7cf9df552bc19fd5daf7f7"},
+    {file = "syrupy-0.0.15.tar.gz", hash = "sha256:c14f7b37b58546b99c578ff88b2dccfb8d96b98d9d4dac051d9597f878ce7f0f"},
 ]
 
 [[package]]

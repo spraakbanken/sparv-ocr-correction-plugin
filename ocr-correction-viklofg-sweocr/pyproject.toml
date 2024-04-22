@@ -58,4 +58,5 @@ distribution = true
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=7.4.4",
+    "syrupy>=3.0.6",
 ]
