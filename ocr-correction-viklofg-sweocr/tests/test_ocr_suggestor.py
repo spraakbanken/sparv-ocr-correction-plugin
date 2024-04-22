@@ -1,3 +1,4 @@
+import pytest
 from sbx_ocr_correction_viklofg_sweocr.ocr_corrector import OcrCorrector
 
 
@@ -107,3 +108,82 @@ def test_long_text(ocr_corrector: OcrCorrector):
     ]
 
     assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        [
+            "Alla",
+            "de",
+            "andra",
+            "voro",
+            "till",
+            "hands",
+            ",",
+            "stridbare",
+            ",",
+            "karske",
+            "män",
+            ",",
+            "så",
+            "länge",
+            "kraften",
+            "stod",
+            "bi",
+            ",",
+            "och",
+            "till",
+            "dess",
+            "äfven",
+            "de",
+            ",",
+            "hvar",
+            "efter",
+            "annan",
+            ",",
+            "förr",
+            "eller",
+            "sednare",
+            "föllo",
+            "till",
+            "jorden",
+            ",",
+            "och",
+            "vapnen",
+            "ur",
+            "deras",
+            "domnande",
+            "händer",
+            ".",
+        ],
+        [
+            "Jonathan",
+            "saknades",
+            ",",
+            "emedan",
+            "han",
+            ",",
+            "med",
+            "sin",
+            "vapendragare",
+            ",",
+            "redan",
+            "på",
+            "annat",
+            "håll",
+            "sökt",
+            "och",
+            "anträffat",
+            "fienden",
+            ".",
+        ],
+    ],
+)
+def test_texts_issue_39(text: list[str], ocr_corrector: OcrCorrector, snapshot) -> None:
+    """Test cases related to https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues/39."""
+
+    actual = ocr_corrector.calculate_corrections(text)
+
+    assert len(actual) == len(text)
+    assert actual == snapshot
