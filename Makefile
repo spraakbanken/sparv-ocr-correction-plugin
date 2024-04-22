@@ -142,20 +142,27 @@ publish:
 
 
 .PHONY: prepare-release
-prepare-release: tests/requirements-testing.lock
+prepare-release: update-changelog tests/requirements-testing.lock
 
 # we use lock extension so that dependabot doesn't pick up changes in this file
 tests/requirements-testing.lock: pyproject.toml
 	pdm export --dev --format requirements --output $@
 
-.PHONY: kb-bert-prepare-release
-viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
-
+.PHONY: update-changelog
 update-changelog: CHANGELOG.md ocr-correction-viklofg-sweocr/CHANGELOG.md
 
 CHANGELOG.md:
 	git cliff --unreleased --prepend $@
 
+# update snapshots for `syrupy`
+.PHONY: snapshot-update
+snapshot-update:
+	${INVENV} pytest --snapshot-update
+
+.PHONY: viklofg-sweocr-prepare-release
+viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
+
 .PHONY: ocr-correction-viklofg-sweocr/CHANGELOG.md
 ocr-correction-viklofg-sweocr/CHANGELOG.md:
 	git cliff --unreleased --include-path "ocr-correction-viklofg-sweocr/**/*" --include-path "examples/ocr-correction-viklofg-sweocr/**/*" --prepend $@
+	pdm export --dev --format requirements --output $@
