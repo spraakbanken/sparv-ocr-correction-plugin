@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:51e8998c78fef75ae030663abeb6c36dbe2b93babf2f05b68a7ed0b9d0005d14"
+content_hash = "sha256:2c33c50d40fb3f2606add0ae458db038f47c3de7d8817e3d67b75de47cedab06"
 
 [[package]]
 name = "appdirs"
@@ -289,6 +289,17 @@ files = [
     {file = "datrie-0.8.2-pp273-pypy_73-win32.whl", hash = "sha256:b07bd5fdfc3399a6dab86d6e35c72b1dbd598e80c97509c7c7518ab8774d3fda"},
     {file = "datrie-0.8.2-pp373-pypy36_pp73-win32.whl", hash = "sha256:89ff3d41df4f899387aa07b4b066f5da36e3a10b67b8aeae631c950502ff4503"},
     {file = "datrie-0.8.2.tar.gz", hash = "sha256:525b08f638d5cf6115df6ccd818e5a01298cd230b2dac91c8ff2e6499d18765d"},
+]
+
+[[package]]
+name = "diff-match-patch"
+version = "20230430"
+requires_python = ">=3.7"
+summary = "Diff Match and Patch"
+groups = ["default"]
+files = [
+    {file = "diff-match-patch-20230430.tar.gz", hash = "sha256:953019cdb9c9d2c9e47b5b12bcff3cf4746fc4598eb406076fa1fc27e6a1f15c"},
+    {file = "diff_match_patch-20230430-py3-none-any.whl", hash = "sha256:dce43505fb7b1b317de7195579388df0746d90db07015ed47a85e5e44930ef93"},
 ]
 
 [[package]]

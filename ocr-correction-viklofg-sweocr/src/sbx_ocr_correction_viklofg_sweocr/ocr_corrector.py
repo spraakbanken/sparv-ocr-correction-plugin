@@ -12,7 +12,7 @@ logger = get_logger(__name__)
 
 
 def zip_and_diff(orig: List[str], sugg: List[str]) -> List[Optional[str]]:
-    return [sw if sw != ow else None for (ow, sw) in zip(orig, sugg)]
+    return [sw if sw != ow else None for (ow, sw) in zip(orig, sugg, strict=True)]
 
 
 def bytes_length(s: str) -> int:
@@ -46,6 +46,7 @@ class OcrCorrector:
         curr_len = 0
         ocr_corrections: List[str] = []
         for word in text:
+            print(f"{word=}")
             len_word = bytes_length(word)
             if (curr_len + len_word + 1) > self.TEXT_LIMIT:
                 parts.append(TOK_SEP.join(curr_part))
@@ -53,13 +54,16 @@ class OcrCorrector:
             else:
                 curr_part.append(word)
                 curr_len = len_word if curr_len == 0 else curr_len + len_word + 1
+            print(f"{curr_part=} {curr_len=}")
         if len(curr_part) > 0:
             parts.append(TOK_SEP.join(curr_part))
         for part in parts:
+            print(f"{part=}")
             suggested_text = self.pipeline(part)[0]["generated_text"]
             suggested_text = suggested_text.replace(",", " ,")
             suggested_text = suggested_text.replace(".", " .")
-            ocr_corrections = ocr_corrections + suggested_text.split(TOK_SEP)
+            print(f"{suggested_text=}")
+            ocr_corrections += suggested_text.split(TOK_SEP)
 
         if len(text) == len(ocr_corrections) + 1 and text[-1] != ocr_corrections[-1]:
             ocr_corrections.append(text[-1])

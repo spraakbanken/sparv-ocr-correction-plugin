@@ -1,0 +1,35 @@
+# name: test_tokenize[    -expected2]
+  <class 'list'> [
+    '    ',
+  ]
+---
+# name: test_tokenize[  apa bepa cepa  -expected5]
+  <class 'list'> [
+    '  apa ',
+    'bepa ',
+    'cepa  ',
+  ]
+---
+# name: test_tokenize[  apa bepa cepa-expected4]
+  <class 'list'> [
+    '  apa ',
+    'bepa ',
+    'cepa ',
+  ]
+---
+# name: test_tokenize[ -expected1]
+  <class 'list'> [
+    ' ',
+  ]
+---
+# name: test_tokenize[-expected0]
+  <class 'list'> [
+  ]
+---
+# name: test_tokenize[apa bepa cepa-expected3]
+  <class 'list'> [
+    'apa ',
+    'bepa ',
+    'cepa ',
+  ]
+---
