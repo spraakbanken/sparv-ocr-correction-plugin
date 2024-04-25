@@ -1,0 +1,16 @@
+metadata:
+    id: issue-39-christoph-borg
+    language: swe
+
+import:
+    importer: text_import:parse
+
+export:
+    annotations:
+        - <sentence>
+        # - <token:word>
+        - <token>:stanza.pos
+        - <token>:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
+
+sparv:
+    compression: none
