@@ -28,7 +28,8 @@ def annotate_ocr_correction(
         sent_to_tag = [token_word[token_index] for token_index in sent]
 
         ocr_corrections = ocr_corrector.calculate_corrections(sent_to_tag)
-        out_ocr_correction_annotation[:] = ocr_corrections
+        for i, ocr_correction in enumerate(ocr_corrections, start=sent[0]):
+            out_ocr_correction_annotation[i] = ocr_correction
 
     logger.info("writing annotations")
     out_ocr_correction.write(out_ocr_correction_annotation)
