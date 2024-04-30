@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🐛 Bug Fixes
+
+- Write annotations at correct index
+- Add py.typed marker
+- *(typing)* Ignore type-checking on modules
+- Missing import
+
+### 📚 Documentation
+
+- Fix description
+
 ## [0.2.2] - 2024-03-27
 
 ### 🚀 Features
