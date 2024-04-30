@@ -1,5 +1,5 @@
-from sparv import api as sparv_api
-from sparv.api import Annotation, Output, annotator
+from sparv import api as sparv_api  # type: ignore [import-untyped]
+from sparv.api import Annotation, Output, annotator  # type: ignore [import-untyped]
 
 from sbx_ocr_correction_viklofg_sweocr.ocr_corrector import OcrCorrector
 

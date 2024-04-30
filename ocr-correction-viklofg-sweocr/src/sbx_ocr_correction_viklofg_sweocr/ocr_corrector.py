@@ -1,7 +1,11 @@
 from typing import List, Optional
 
-from sparv import api as sparv_api
-from transformers import AutoTokenizer, T5ForConditionalGeneration, pipeline
+from sparv import api as sparv_api  # type: ignore [import-untyped]
+from transformers import (  # type: ignore [import-untyped]
+    AutoTokenizer,
+    T5ForConditionalGeneration,
+    pipeline,
+)
 
 
 def bytes_length(s: str) -> int:
