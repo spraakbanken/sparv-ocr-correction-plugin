@@ -1,4 +1,4 @@
-from sbx_ocr_correction_viklofg_sweocr import OcrCorrector
+from sbx_ocr_correction_viklofg_sweocr.ocr_corrector import OcrCorrector
 
 
 def test_short_text(ocr_corrector: OcrCorrector):
