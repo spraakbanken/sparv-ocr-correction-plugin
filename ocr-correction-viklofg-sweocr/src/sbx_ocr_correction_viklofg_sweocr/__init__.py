@@ -2,6 +2,6 @@ from sbx_ocr_correction_viklofg_sweocr.annotations import annotate_ocr_correctio
 
 __all__ = ["annotate_ocr_correction"]
 
-__description__ = "Calculating word neighbours by mask a word in a BERT model."
+__description__ = "Annotate words with corrections of OCR-errors."
 
 __version__ = "0.2.3"
