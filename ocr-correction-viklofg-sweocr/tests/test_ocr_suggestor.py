@@ -60,3 +60,31 @@ def test_long_text(ocr_corrector: OcrCorrector, snapshot):
     actual = ocr_corrector.calculate_corrections(text1)
 
     assert actual == snapshot
+
+
+def test_issue_40(ocr_corrector: OcrCorrector, snapshot) -> None:
+    example = [
+        "Jonathan",
+        "saknades",
+        ",",
+        "emedan",
+        "han",
+        ",",
+        "med",
+        "sin",
+        "vapendragare",
+        ",",
+        "redan",
+        "på",
+        "annat",
+        "håll",
+        "sökt",
+        "och",
+        "anträffat",
+        "fienden",
+        ".",
+    ]
+
+    actual = ocr_corrector.calculate_corrections(example)
+
+    assert actual == snapshot

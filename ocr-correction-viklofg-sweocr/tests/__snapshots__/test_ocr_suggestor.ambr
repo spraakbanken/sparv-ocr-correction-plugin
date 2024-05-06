@@ -1,3 +1,26 @@
+# name: test_issue_40
+  <class 'list'> [
+    'Jonat+han',
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+  ]
+---
 # name: test_long_text
   <class 'list'> [
     None,
