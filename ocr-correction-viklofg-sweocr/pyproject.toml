@@ -5,7 +5,11 @@ description = "A sparv plugin for computing suggested OCR improvements."
 authors = [
     { name = "Kristoffer Andersson", email = "kristoffer.andersson@gu.se" },
 ]
-dependencies = ["sparv-pipeline >=5.2.0", "transformers>=4.34.1"]
+dependencies = [
+    "sparv-pipeline >=5.2.0",
+    "transformers>=4.34.1",
+    "parallel-corpus>=0.1.2",
+]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.8.1,<3.12"
