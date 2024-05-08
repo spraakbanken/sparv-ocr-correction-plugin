@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🐛 Bug Fixes
+
+- Align text with corrections
+
+### 📚 Documentation
+
+- Use Correct description
+
+### 🧪 Testing
+
+- Use syrupy for snapshot testing
+
 ## [0.2.3] - 2024-04-30
 
 ### 🐛 Bug Fixes
