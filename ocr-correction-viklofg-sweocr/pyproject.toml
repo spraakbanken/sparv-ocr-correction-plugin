@@ -1,6 +1,6 @@
 [project]
 name = "sparv-sbx-ocr-correction-viklofg-sweocr"
-version = "0.2.3"
+version = "0.3.0"
 description = "A sparv plugin for computing suggested OCR improvements."
 authors = [
     { name = "Språkbanken Text", email = "sb-info@svenska.gu.se" },
