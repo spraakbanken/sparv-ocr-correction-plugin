@@ -1,7 +1,7 @@
 from sbx_ocr_correction_viklofg_sweocr.ocr_corrector import OcrCorrector
 
 
-def test_short_text(ocr_corrector: OcrCorrector):
+def test_short_text(ocr_corrector: OcrCorrector, snapshot):
     text = [
         "Den",
         "i",
@@ -18,24 +18,10 @@ def test_short_text(ocr_corrector: OcrCorrector):
     ]
     actual = ocr_corrector.calculate_corrections(text)
 
-    expected = [
-        None,
-        None,
-        "Handelstidningens",
-        "gårdagsnummer",
-        None,
-        None,
-        None,
-        "som",
-        None,
-        None,
-        "Frölandsviken",
-        None,
-    ]
-    assert actual == expected
+    assert actual == snapshot
 
 
-def test_long_text(ocr_corrector: OcrCorrector):
+def test_long_text(ocr_corrector: OcrCorrector, snapshot):
     text1 = [
         "Förvaltningen",
         "af",
@@ -72,38 +58,33 @@ def test_long_text(ocr_corrector: OcrCorrector):
     # vice Ordförande att föra ordet, när hinder för Ordföranden inträffar."""
     # print(f"{len(text2)=}, {len(text2.encode())=}")
     actual = ocr_corrector.calculate_corrections(text1)
-    # actual = ocr_corrector.calculate_corrections(text2)
 
-    expected = [
-        None,
-        None,
-        "Riksgäldskontoret",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        "Riksdagsordningen",
-        None,
-        None,
+    assert actual == snapshot
+
+
+def test_issue_40(ocr_corrector: OcrCorrector, snapshot) -> None:
+    example = [
+        "Jonathan",
+        "saknades",
+        ",",
+        "emedan",
+        "han",
+        ",",
+        "med",
+        "sin",
+        "vapendragare",
+        ",",
+        "redan",
+        "på",
+        "annat",
+        "håll",
+        "sökt",
+        "och",
+        "anträffat",
+        "fienden",
+        ".",
     ]
 
-    assert actual == expected
+    actual = ocr_corrector.calculate_corrections(example)
+
+    assert actual == snapshot
