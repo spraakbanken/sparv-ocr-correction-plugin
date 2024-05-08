@@ -1,6 +1,16 @@
+# serializer version: 1
 # name: test_issue_40
-  <class 'list'> [
-    'Jonat+han',
+  list([
+    'Jonat han',
+    None,
+    '',
+    None,
+    None,
+    '',
+    None,
+    None,
+    None,
+    '',
     None,
     None,
     None,
@@ -9,23 +19,15 @@
     None,
     None,
     None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-  ]
----
+    '',
+  ])
+# ---
 # name: test_long_text
-  <class 'list'> [
+  list([
     None,
     None,
     'Riksgäldskontoret',
+    '',
     None,
     None,
     None,
@@ -37,8 +39,7 @@
     None,
     None,
     None,
-    None,
-    None,
+    '',
     None,
     None,
     None,
@@ -51,22 +52,22 @@
     None,
     'Riksdagsordningen',
     None,
-    None,
-  ]
----
+    '',
+  ])
+# ---
 # name: test_short_text
-  <class 'list'> [
+  list([
     None,
     None,
     'Handelstidningens',
     'gårdagsnummer',
     None,
     None,
-    None,
+    '',
     'som',
     None,
     None,
     'Frölandsviken',
-    None,
-  ]
----
+    '',
+  ])
+# ---
