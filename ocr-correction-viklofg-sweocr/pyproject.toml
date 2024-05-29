@@ -64,4 +64,5 @@ distribution = true
 dev = [
     "pytest>=7.4.4",
     "syrupy>=4.0.0",
+    "sparv-pipeline-testing @ git+https://github.com/spraakbanken/sparv-pipeline-testing.git@main",
 ]

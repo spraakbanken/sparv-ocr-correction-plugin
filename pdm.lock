@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:fb2039beb36d0e8c2bd2e41c1d68d9471b32cfa63a05084490fbe9018e9650fa"
+content_hash = "sha256:0fc952fbbf13791ff1099322d953c53d6e4de2970f9e5f7ae8c1640f538ff363"
 
 [[package]]
 name = "annotated-types"
@@ -2156,6 +2156,16 @@ files = [
     {file = "sparv_pipeline-5.2.0-py3-none-any.whl", hash = "sha256:1334808b7b7dd15463decec95871c4e8427dbedd9f6f9b64c16e9224e66507c6"},
     {file = "sparv_pipeline-5.2.0.tar.gz", hash = "sha256:d8282fd97ebae048e40b1cd83e087fad455ab137e107ebf54e2685b3af2f13b7"},
 ]
+
+[[package]]
+name = "sparv-pipeline-testing"
+version = "0.1.0"
+requires_python = ">=3.8.1"
+git = "https://github.com/spraakbanken/sparv-pipeline-testing.git"
+ref = "main"
+revision = "8d9088e959731d29a1f47bcbd174cdf1189ac246"
+summary = "Testing utilities for sparv-pipeline."
+groups = ["dev"]
 
 [[package]]
 name = "sparv-sbx-ocr-correction-viklofg-sweocr"
