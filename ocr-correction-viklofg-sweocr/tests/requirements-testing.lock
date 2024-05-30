@@ -831,7 +831,7 @@ snakemake==7.32.3 \
 sparv-pipeline==5.2.0 \
     --hash=sha256:1334808b7b7dd15463decec95871c4e8427dbedd9f6f9b64c16e9224e66507c6 \
     --hash=sha256:d8282fd97ebae048e40b1cd83e087fad455ab137e107ebf54e2685b3af2f13b7
-sparv-pipeline-testing @ git+https://github.com/spraakbanken/sparv-pipeline-testing.git@b65cc56db853074cfe582089f3facdec1343709f
+sparv-pipeline-testing @ git+https://github.com/spraakbanken/sparv-pipeline-testing.git@5132c1ea504d4f4aefa54dad552cbe6d7b9ad1a0
 stanza==1.5.1 \
     --hash=sha256:08de03c42ddbd228d0ec77118810383dc76df7b6b6f3febe9b0ff43eee7ff749 \
     --hash=sha256:4f804209f77f50ed62110c0eaa7cdbdba23c5cbba3cd71d5c030c015f5ea4392

@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:dffcd67e51ea8a69f1bbae7ac56cf99847a3b3f21cd01bd1e75d20359eb9004e"
+content_hash = "sha256:3483fcbf1dfcc9b6a762f2b1d60fc75bb9c9f1425c6ada48b94888747a17e9cb"
 
 [[package]]
 name = "appdirs"
@@ -1796,11 +1796,11 @@ files = [
 
 [[package]]
 name = "sparv-pipeline-testing"
-version = "0.1.1"
+version = "0.1.2"
 requires_python = ">=3.8.1,<3.12"
 git = "https://github.com/spraakbanken/sparv-pipeline-testing.git"
-ref = "v0.1.1"
-revision = "b65cc56db853074cfe582089f3facdec1343709f"
+ref = "v0.1.2"
+revision = "5132c1ea504d4f4aefa54dad552cbe6d7b9ad1a0"
 summary = "Testing utilities for sparv-pipeline."
 groups = ["dev"]
 dependencies = [
