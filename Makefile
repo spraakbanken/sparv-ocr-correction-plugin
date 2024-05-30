@@ -175,3 +175,11 @@ ocr-correction-viklofg-sweocr/CHANGELOG.md:
 	git cliff --unreleased --include-path "ocr-correction-viklofg-sweocr/**/*" --include-path "examples/ocr-correction-viklofg-sweocr/**/*" --prepend $@
 	${INVENV} pytest --snapshot-update
 
+update-lockfiles: pdm.lock ocr-correction-viklofg-sweocr/tests/requirements-testing.lock
+
+ocr-correction-viklofg-sweocr/pdm.lock: ocr-correction-viklofg-sweocr/pyproject.toml
+	cd ocr-correction-viklofg-sweocr; pdm lock
+
+ocr-correction-viklofg-sweocr/tests/requirements-testing.lock: ocr-correction-viklofg-sweocr/pdm.lock
+	cd ocr-correction-viklofg-sweocr; make tests/requirements-testing.lock
+
