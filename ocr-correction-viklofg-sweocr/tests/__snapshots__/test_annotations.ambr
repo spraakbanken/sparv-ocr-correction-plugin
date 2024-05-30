@@ -1,0 +1,17 @@
+# serializer version: 1
+# name: test_annotate_sentence_sentiment
+  list([
+    None,
+    None,
+    'Handelstidningens',
+    'gårdagsnummer',
+    None,
+    None,
+    '',
+    'som',
+    None,
+    None,
+    'Frölandsviken',
+    '',
+  ])
+# ---
