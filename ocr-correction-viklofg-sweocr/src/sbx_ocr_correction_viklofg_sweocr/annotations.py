@@ -1,3 +1,5 @@
+"""Annotators for OCR correction."""
+
 from sparv import api as sparv_api  # type: ignore [import-untyped]
 from sparv.api import Annotation, Output, annotator  # type: ignore [import-untyped]
 
@@ -11,11 +13,12 @@ def annotate_ocr_correction(
     out_ocr_correction: Output = Output(
         "<token>:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
         cls="sbx_ocr_correction_viklofg_sweocr",
-        description="OCR Corrections from viklfog/swedish-ocr (format: '|<word>:<score>|...|)",  # noqa: E501
+        description="OCR Corrections from viklfog/swedish-ocr (format: '|<word>:<score>|...|)",
     ),
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
 ) -> None:
+    """Annotate tokens with OCR correction."""
     ocr_corrector = OcrCorrector.default()
 
     sentences, _orphans = sentence.get_children(word)

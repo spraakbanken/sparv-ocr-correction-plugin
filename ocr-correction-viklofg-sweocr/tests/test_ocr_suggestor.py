@@ -1,7 +1,7 @@
 from sbx_ocr_correction_viklofg_sweocr.ocr_corrector import OcrCorrector
 
 
-def test_short_text(ocr_corrector: OcrCorrector, snapshot):
+def test_short_text(ocr_corrector: OcrCorrector, snapshot) -> None:
     text = [
         "Den",
         "i",
@@ -21,7 +21,7 @@ def test_short_text(ocr_corrector: OcrCorrector, snapshot):
     assert actual == snapshot
 
 
-def test_long_text(ocr_corrector: OcrCorrector, snapshot):
+def test_long_text(ocr_corrector: OcrCorrector, snapshot) -> None:
     text1 = [
         "Förvaltningen",
         "af",

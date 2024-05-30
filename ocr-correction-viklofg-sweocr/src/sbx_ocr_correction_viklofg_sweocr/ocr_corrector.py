@@ -1,16 +1,21 @@
+"""OCR Corrector."""
+
 import re
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from parallel_corpus import graph
 from sparv import api as sparv_api  # type: ignore [import-untyped]
 from transformers import (  # type: ignore [import-untyped]
     AutoTokenizer,
+    PreTrainedTokenizer,
+    PreTrainedTokenizerFast,
     T5ForConditionalGeneration,
     pipeline,
 )
 
 
 def bytes_length(s: str) -> int:
+    """Compute the length in bytes of the given str."""
     return len(s.encode("utf-8"))
 
 
@@ -25,26 +30,37 @@ PUNCTUATION = re.compile(r"[.,:;!?]")
 
 
 class OcrCorrector:
+    """OCR Corrector."""
+
     TEXT_LIMIT: int = 127
 
-    def __init__(self, *, tokenizer, model) -> None:
+    def __init__(
+        self,
+        *,
+        tokenizer: Union[PreTrainedTokenizer, PreTrainedTokenizerFast],
+        model: T5ForConditionalGeneration,
+    ) -> None:
+        """Create a OCR corrector."""
         self.tokenizer = tokenizer
         self.model = model
-        self.pipeline = pipeline(
-            "text2text-generation", model=model, tokenizer=tokenizer
-        )
+        self.pipeline = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
 
     @classmethod
     def default(cls) -> "OcrCorrector":
-        tokenizer = AutoTokenizer.from_pretrained(
-            TOKENIZER_NAME, revision=TOKENIZER_REVISION
-        )
-        model = T5ForConditionalGeneration.from_pretrained(
-            MODEL_NAME, revision=MODEL_REVISION
-        )
+        """Create a OCR Corrector with default tokenizer and model."""
+        tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION)
+        model = T5ForConditionalGeneration.from_pretrained(MODEL_NAME, revision=MODEL_REVISION)
         return cls(model=model, tokenizer=tokenizer)
 
     def calculate_corrections(self, text: List[str]) -> List[Optional[str]]:
+        """Calculate corrections for the given text.
+
+        Args:
+            text (List[str]): The text as a list of strings
+
+        Returns:
+            List[Optional[str]]: A list of annotations or None
+        """
         logger.debug("Analyzing '%s'", text)
 
         parts: List[str] = []
@@ -74,6 +90,17 @@ class OcrCorrector:
 
 
 def align_and_diff(g: graph.Graph) -> List[Optional[str]]:
+    """Align and diff changes in the graph.
+
+    Args:
+        g (graph.Graph): the graph to work with
+
+    Raises:
+        NotImplementedError: if there are several sources
+
+    Returns:
+        List[Optional[str]]: list of corrections or None
+    """
     corrections = []
     edge_map = graph.edge_map(g)
     for s_token in g.source:
@@ -98,21 +125,38 @@ def align_and_diff(g: graph.Graph) -> List[Optional[str]]:
             corrections.append(target_texts if source_text != target_texts else None)
         elif len(target_ids) == 1:
             # TODO Handle this correct (https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues/44)
-            logger.warn(
-                f"Handle several sources, see https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues/44, {source_ids=} {target_ids=} {g.source=} {g.target=}"  # noqa: E501
+            logger.warning(
+                "Handle several sources, see https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues/44, source_ids=%s target_ids=%s g.source=%s g.target=%s",  # noqa: E501
+                source_ids,
+                target_ids,
+                g.source,
+                g.target,
             )
             target_text = lookup_text(g, target_ids[0], graph.Side.target).strip()
             corrections.append(target_text)
         else:
             # TODO Handle this correct (https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues/44)
             raise NotImplementedError(
-                f"Handle several sources, {source_ids=} {target_ids=} {g.source=} {g.target=}"  # noqa: E501
+                f"Handle several sources, {source_ids=} {target_ids=} {g.source=} {g.target=}"
             )
 
     return corrections
 
 
 def lookup_text(g: graph.Graph, id_: str, side: graph.Side) -> str:
+    """Lookup text in graph for given id and side.
+
+    Args:
+        g (graph.Graph): the graph to work with
+        id_ (str): the id to  search for
+        side (graph.Side): the side to look at
+
+    Raises:
+        KeyError: if the id is not found
+
+    Returns:
+        str: the text for the id
+    """
     if side == graph.Side.source:
         for token in g.source:
             if token.id == id_:
@@ -121,6 +165,6 @@ def lookup_text(g: graph.Graph, id_: str, side: graph.Side) -> str:
         for token in g.target:
             if token.id == id_:
                 return token.text
-    raise ValueError(
+    raise KeyError(
         f"The id={id_} isn't found in the given graph on side={side}",
     )

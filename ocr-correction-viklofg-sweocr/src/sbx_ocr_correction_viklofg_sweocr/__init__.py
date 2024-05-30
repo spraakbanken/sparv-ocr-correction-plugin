@@ -1,3 +1,5 @@
+"""Sparv plugin for annotation words with OCR corrections."""
+
 from sbx_ocr_correction_viklofg_sweocr.annotations import annotate_ocr_correction
 
 __all__ = ["annotate_ocr_correction"]
