@@ -156,6 +156,7 @@ tests/requirements-testing.lock: pyproject.toml pdm.lock
 .PHONY: update-changelog
 update-changelog: CHANGELOG.md
 
+.PHONY: CHANGELOG.md
 CHANGELOG.md:
 	git cliff --unreleased --prepend $@
 
@@ -164,9 +165,13 @@ CHANGELOG.md:
 snapshot-update:
 	${INVENV} pytest --snapshot-update
 
+### === project targets below this line ===
+
 .PHONY: kb-bert-prepare-release
 viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
 
 .PHONY: ocr-correction-viklofg-sweocr/CHANGELOG.md
 ocr-correction-viklofg-sweocr/CHANGELOG.md:
 	git cliff --unreleased --include-path "ocr-correction-viklofg-sweocr/**/*" --include-path "examples/ocr-correction-viklofg-sweocr/**/*" --prepend $@
+	${INVENV} pytest --snapshot-update
+
