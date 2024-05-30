@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:8b1a647490e2cf5fe4af1424e0d03749234f65f97604792d0b7b76e3b908b141"
+content_hash = "sha256:a4a87db9c2ded527134bfc3b3b5dedd83830a153d729b6730191ebc56a18f371"
 
 [[package]]
 name = "annotated-types"
@@ -2162,11 +2162,11 @@ files = [
 
 [[package]]
 name = "sparv-pipeline-testing"
-version = "0.1.2"
+version = "0.1.4"
 requires_python = ">=3.8.1,<3.12"
 git = "https://github.com/spraakbanken/sparv-pipeline-testing.git"
-ref = "v0.1.2"
-revision = "5132c1ea504d4f4aefa54dad552cbe6d7b9ad1a0"
+ref = "v0.1.4"
+revision = "5e925948a7961183b94d45c6a377f8578561e8cb"
 summary = "Testing utilities for sparv-pipeline."
 groups = ["dev"]
 dependencies = [
