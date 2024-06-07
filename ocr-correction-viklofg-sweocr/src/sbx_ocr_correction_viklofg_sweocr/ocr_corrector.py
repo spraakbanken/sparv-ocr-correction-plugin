@@ -37,20 +37,30 @@ class OcrCorrector:
     def __init__(
         self,
         *,
-        tokenizer: Union[PreTrainedTokenizer, PreTrainedTokenizerFast],
-        model: T5ForConditionalGeneration,
+        tokenizer: Union[PreTrainedTokenizer, PreTrainedTokenizerFast, None] = None,
+        model: Optional[T5ForConditionalGeneration] = None,
     ) -> None:
         """Create a OCR corrector."""
-        self.tokenizer = tokenizer
-        self.model = model
-        self.pipeline = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
+        self.tokenizer = tokenizer or self._default_tokenizer()
+        self.model = model or self._default_model()
+        self.pipeline = pipeline(
+            "text2text-generation", model=self.model, tokenizer=self.tokenizer
+        )
 
     @classmethod
     def default(cls) -> "OcrCorrector":
         """Create a OCR Corrector with default tokenizer and model."""
-        tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION)
-        model = T5ForConditionalGeneration.from_pretrained(MODEL_NAME, revision=MODEL_REVISION)
-        return cls(model=model, tokenizer=tokenizer)
+        return cls(model=cls._default_model(), tokenizer=cls._default_tokenizer())
+
+    @classmethod
+    def _default_model(cls) -> T5ForConditionalGeneration:
+        """Create the default model."""
+        return T5ForConditionalGeneration.from_pretrained(MODEL_NAME, revision=MODEL_REVISION)
+
+    @classmethod
+    def _default_tokenizer(cls) -> Union[PreTrainedTokenizer, PreTrainedTokenizerFast]:
+        """Create the default tokenizer."""
+        return AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION)
 
     def calculate_corrections(self, text: List[str]) -> List[Optional[str]]:
         """Calculate corrections for the given text.
