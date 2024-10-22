@@ -57,8 +57,8 @@ help:
 	@echo ""
 
 PLATFORM := `uname -o`
-REPO := "<REPO-NAME-HERE>"
-PROJECT_SRC := "<SRC-FOLDER-HERE>"
+REPO := "sparv-sbx-ocr-correction"
+PROJECT_SRC := "ocr-correction-viklofg-sweocr/src"
 
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
@@ -72,8 +72,8 @@ default_cov := "--cov=${PROJECT_SRC}"
 cov_report := "term-missing"
 cov := ${default_cov}
 
-all_tests := tests
-tests := tests
+all_tests := ocr-correction-viklofg-sweocr/tests
+tests := ocr-correction-viklofg-sweocr/tests
 
 info:
 	@echo "Platform: ${PLATFORM}"
@@ -166,3 +166,9 @@ snapshot-update:
 	${INVENV} pytest --snapshot-update
 
 ### === project targets below this line ===
+.PHONY: kb-bert-prepare-release
+viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
+
+.PHONY: ocr-correction-viklofg-sweocr/CHANGELOG.md
+ocr-correction-viklofg-sweocr/CHANGELOG.md:
+	git cliff --unreleased --include-path "ocr-correction-viklofg-sweocr/**/*" --include-path "examples/ocr-correction-viklofg-sweocr/**/*" --prepend $@
