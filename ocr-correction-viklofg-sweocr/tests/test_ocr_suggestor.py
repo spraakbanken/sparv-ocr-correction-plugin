@@ -88,3 +88,57 @@ def test_issue_40(ocr_corrector: OcrCorrector, snapshot) -> None:
     actual = ocr_corrector.calculate_corrections(example)
 
     assert actual == snapshot
+
+
+def test_issue_44(ocr_corrector: OcrCorrector) -> None:
+    example = [
+        "Alla",
+        "de",
+        "andra",
+        "voro",
+        "till",
+        "hands",
+        ",",
+        "stridbare",
+        ",",
+        "karske",
+        "män",
+        ",",
+        "så",
+        "länge",
+        "kraften",
+        "stod",
+        "bi",
+        ",",
+        "och",
+        "till",
+        "dess",
+        "äfven",
+        "de",
+        ",",
+        "hvar",
+        "efter",
+        "annan",
+        ",",
+        "förr",
+        "eller",
+        "sednare",
+        "föllo",
+        "till",
+        "jorden",
+        ",",
+        "och",
+        "vapnen",
+        "ur",
+        "deras",
+        "domnande",
+        "händer",
+        ".",
+    ]
+
+    actual = ocr_corrector.calculate_corrections(example)
+
+    for i in range(len(actual) - 1):
+        value_i = actual[i][0]
+        value_i_1 = actual[i + 1][0]
+        assert value_i <= value_i_1

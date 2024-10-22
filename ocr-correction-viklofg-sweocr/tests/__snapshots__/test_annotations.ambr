@@ -1,17 +1,74 @@
 # serializer version: 1
-# name: test_annotate_sentence_sentiment
+# name: test_annotate_ocr_correction
   list([
     None,
     None,
-    'Handelstidningens',
-    'gårdagsnummer',
+    'Handelstidningensgårdagsnummer',
     None,
     None,
-    '',
+    None,
     'som',
     None,
     None,
-    'Frölandsviken',
-    '',
+    'Frölundaviken',
+    None,
+  ])
+# ---
+# name: test_correction_spans_2_tokens
+  list([
+    tuple(
+      0,
+      1,
+    ),
+    tuple(
+      1,
+      2,
+    ),
+    tuple(
+      2,
+      4,
+    ),
+    tuple(
+      4,
+      6,
+    ),
+    tuple(
+      6,
+      7,
+    ),
+    tuple(
+      7,
+      8,
+    ),
+    tuple(
+      8,
+      9,
+    ),
+    tuple(
+      9,
+      10,
+    ),
+    tuple(
+      10,
+      11,
+    ),
+    tuple(
+      11,
+      12,
+    ),
+  ])
+# ---
+# name: test_correction_spans_2_tokens.1
+  list([
+    None,
+    None,
+    'se’n',
+    'se’n',
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
   ])
 # ---

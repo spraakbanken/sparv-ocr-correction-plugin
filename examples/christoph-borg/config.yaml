@@ -8,9 +8,15 @@ import:
 export:
     annotations:
         - <sentence>
-        # - <token:word>
+        - <token>
+        - <token:word>
         - <token>:stanza.pos
-        - <token>:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
+        - swener.ne:swener.ex
+        - swener.ne:swener.type
+        - swener.ne:swener.subtype
+        - swener.ne:swener.name
+        - sbx_ocr_correction_viklofg_sweocr.ocr_correction
+        - sbx_ocr_correction_viklofg_sweocr.ocr_correction:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
         
 sparv:
     compression: none
