@@ -1,0 +1,14 @@
+# serializer version: 1
+# name: test_annotate_ocr_correction
+  list([
+    tuple(
+      7,
+      18,
+    ),
+  ])
+# ---
+# name: test_annotate_ocr_correction.1
+  list([
+    'ansaknades',
+  ])
+# ---
