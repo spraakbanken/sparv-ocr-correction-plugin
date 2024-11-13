@@ -60,8 +60,10 @@ allow-direct-references = true
 [tool.pdm]
 distribution = true
 
-[tool.pdm.dev-dependencies]
+
+[dependency-groups]
 dev = [
     "pytest>=7.4.4",
     "syrupy>=4.0.0",
+    "sparv-pipeline-testing @ git+https://github.com/spraakbanken/sparv-pipeline-testing.git@v0.1.7",
 ]

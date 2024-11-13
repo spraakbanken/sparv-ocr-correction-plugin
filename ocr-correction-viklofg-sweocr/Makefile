@@ -146,7 +146,7 @@ prepare-release: tests/requirements-testing.lock
 
 # we use lock extension so that dependabot doesn't pick up changes in this file
 tests/requirements-testing.lock: pyproject.toml
-	pdm export --dev --format requirements --output $@
+	pdm export --dev --format requirements --no-hashes --output $@
 
 .PHONY: kb-bert-prepare-release
 kb-bert-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
