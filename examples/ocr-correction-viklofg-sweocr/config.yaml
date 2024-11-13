@@ -1,16 +1,17 @@
 metadata:
-    id: hello-ocr
-    language: swe
+  id: hello-ocr
+  language: swe
 
 import:
-    importer: text_import:parse
+  importer: text_import:parse
 
 export:
-    annotations:
-        - <sentence>
-        # - <token:word>
-        - <token>:stanza.pos
-        - <token>:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
+  annotations:
+    - <sentence>
+    # - <token:word>
+    - <token>:stanza.pos
+    - sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction
+    - sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
 
 sparv:
-    compression: none
+  compression: none
