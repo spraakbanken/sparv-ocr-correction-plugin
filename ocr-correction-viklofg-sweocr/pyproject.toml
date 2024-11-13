@@ -57,8 +57,8 @@ packages = ["src/sbx_ocr_correction_viklofg_sweocr"]
 [tool.hatch.metadata]
 allow-direct-references = true
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "pytest>=8.3.3",
     "syrupy>=4.7.2",
     "sparv-pipeline-testing @ git+https://github.com/spraakbanken/sparv-pipeline-testing.git@v0.1.7",

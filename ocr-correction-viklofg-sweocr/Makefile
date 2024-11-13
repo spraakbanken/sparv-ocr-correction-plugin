@@ -150,8 +150,8 @@ publish:
 prepare-release: update-changelog tests/requirements-testing.lock
 
 # we use lock extension so that dependabot doesn't pick up changes in this file
-tests/requirements-testing.lock: tests/requirements-testing.in pyproject.toml
-	uv pip compile $^ --output-file $@
+tests/requirements-testing.lock: pyproject.toml
+	uv pip compile $< --group dev --output-file $@
 
 .PHONY: update-changelog
 update-changelog: CHANGELOG.md
