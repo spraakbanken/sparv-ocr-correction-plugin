@@ -1,7 +1,7 @@
 from sbx_ocr_correction_viklofg_sweocr.ocr_corrector import OcrCorrector
 
 
-def test_short_text(ocr_corrector: OcrCorrector, snapshot):
+def test_short_text(ocr_corrector: OcrCorrector, snapshot) -> None:  # noqa: ANN001
     text = [
         "Den",
         "i",
@@ -21,7 +21,7 @@ def test_short_text(ocr_corrector: OcrCorrector, snapshot):
     assert actual == snapshot
 
 
-def test_long_text(ocr_corrector: OcrCorrector, snapshot):
+def test_long_text(ocr_corrector: OcrCorrector, snapshot) -> None:  # noqa: ANN001
     text1 = [
         "Förvaltningen",
         "af",
@@ -62,7 +62,7 @@ def test_long_text(ocr_corrector: OcrCorrector, snapshot):
     assert actual == snapshot
 
 
-def test_issue_40(ocr_corrector: OcrCorrector, snapshot) -> None:
+def test_issue_40(ocr_corrector: OcrCorrector, snapshot) -> None:  # noqa: ANN001
     example = [
         "Jonathan",
         "saknades",
