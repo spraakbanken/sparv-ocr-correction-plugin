@@ -58,8 +58,8 @@ help:
 	@echo ""
 
 PLATFORM := `uname -o`
-REPO := "<REPO-NAME-HERE>"
-PROJECT_SRC := "<SRC-FOLDER-HERE>"
+REPO := sparv-sbx-ocr-correction
+PROJECT_SRC := ocr-correction-viklofg-sweocr/src
 
 ifeq (${VIRTUAL_ENV},)
   VENV_NAME = .venv
@@ -167,3 +167,9 @@ snapshot-update:
 	${INVENV} pytest --snapshot-update
 
 ### === project targets below this line ===
+.PHONY: viklofg-sweocr-prepare-release
+viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
+
+.PHONY: ocr-correction-viklofg-sweocr/CHANGELOG.md
+ocr-correction-viklofg-sweocr/CHANGELOG.md:
+	git cliff --unreleased --include-path "ocr-correction-viklofg-sweocr/**/*" --include-path "examples/ocr-correction-viklofg-sweocr/**/*" --prepend $@

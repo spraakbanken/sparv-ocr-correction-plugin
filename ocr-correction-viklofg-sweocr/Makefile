@@ -57,7 +57,7 @@ help:
 	@echo ""
 
 PLATFORM := `uname -o`
-REPO := "sparv-sbx-ocr-correction"
+REPO := sparv-sbx-ocr-correction
 PROJECT_SRC := src/ocr_correction_viklofg_sweocr
 
 ifeq (${VIRTUAL_ENV},)
@@ -151,7 +151,7 @@ prepare-release: update-changelog tests/requirements-testing.lock
 
 # we use lock extension so that dependabot doesn't pick up changes in this file
 tests/requirements-testing.lock: pyproject.toml
-	uv pip compile $< --group dev --output-file $@
+    uv export --dev --format requirements-txt --no-hashes --output-file $@
 
 .PHONY: update-changelog
 update-changelog: CHANGELOG.md
@@ -166,7 +166,7 @@ snapshot-update:
 	${INVENV} pytest --snapshot-update
 
 ### === project targets below this line ===
-.PHONY: kb-bert-prepare-release
+.PHONY: viklofg-sweocr-prepare-release
 viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
 
 .PHONY: ocr-correction-viklofg-sweocr/CHANGELOG.md
