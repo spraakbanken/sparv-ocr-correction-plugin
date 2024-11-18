@@ -73,8 +73,8 @@ default_cov := "--cov=${PROJECT_SRC}"
 cov_report := "term-missing"
 cov := ${default_cov}
 
-all_tests := tests
-tests := tests
+all_tests := ocr-correction-viklofg-sweocr/tests
+tests := ocr-correction-viklofg-sweocr/tests
 
 info:
 	@echo "Platform: ${PLATFORM}"
