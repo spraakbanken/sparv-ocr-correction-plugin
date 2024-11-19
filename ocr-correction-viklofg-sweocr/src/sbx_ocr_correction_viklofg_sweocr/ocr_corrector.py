@@ -66,7 +66,12 @@ class OcrCorrector:
             parts.append(TOK_SEP.join(curr_part))
         curr_start = 0
         for part in parts:
-            suggested_text = self.pipeline(part)[0]["generated_text"]
+            pipeline_result = self.pipeline(part)
+            logger.debug("type(pipeline_result)=%s", type(pipeline_result))
+            if len(pipeline_result) != 1:
+                raise NotImplementedError(f"Unexpected length of result = {len(pipeline_result)}")
+            logger.debug("part=%s pipeline_result[0]=%s", part, pipeline_result[0])
+            suggested_text = pipeline_result[0]["generated_text"]
             suggested_text = PUNCTUATION.sub(r" \g<0>", suggested_text)
             graph_aligned = graph.init_with_source_and_target(part, suggested_text)
             span_ann, curr_start = _align_and_diff(graph_aligned, curr_start=curr_start)
