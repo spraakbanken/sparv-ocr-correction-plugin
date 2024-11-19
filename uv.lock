@@ -998,7 +998,7 @@ wheels = [
 
 [[package]]
 name = "parallel-corpus"
-version = "0.1.2"
+version = "0.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "diff-match-patch" },
@@ -1006,9 +1006,9 @@ dependencies = [
     { name = "strenum" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/78/7e/da6949b91fe86ec92d424de22b2025c46dc83e436a9d7d79a70fdc429fee/parallel_corpus-0.1.2.tar.gz", hash = "sha256:776f01ddebc84df62bb45f0f56f122136e57e2dd9e583051ab29e75aa480920a", size = 28146 }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/25/f9aeb2d775b3b3a842b51125ada4f6f92aa47a527645cc4c45076ae24065/parallel_corpus-0.2.0.tar.gz", hash = "sha256:40a0c364cac766e99f8ebb3d2f0cb5b83dfb01037e3c4b4983969e2b516d66dd", size = 41412 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d7/58/917f31b2957184550ece5312a5d272bf766be7fb0609493684085ab3e250/parallel_corpus-0.1.2-py3-none-any.whl", hash = "sha256:0fd4f7dae9cca4774bd8c153cbe77573afcf3eadf04159b6da967c1a33854bcf", size = 15990 },
+    { url = "https://files.pythonhosted.org/packages/42/4e/4e831c9ca3ef8428b7e97501f02b8a226185a634c6a0c2f68b7bdd021253/parallel_corpus-0.2.0-py3-none-any.whl", hash = "sha256:14e6f375101839091ce98c5bee14cfc6dfa42b25635f10b89e19f4b9447e1a9e", size = 16878 },
 ]
 
 [[package]]
@@ -1981,7 +1981,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "parallel-corpus", specifier = ">=0.1.2" },
+    { name = "parallel-corpus", specifier = ">=0.2.0" },
     { name = "sparv-pipeline", specifier = ">=5.2.0" },
     { name = "transformers", specifier = ">=4.45.2" },
 ]

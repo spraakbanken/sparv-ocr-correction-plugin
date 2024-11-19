@@ -4,7 +4,7 @@ import re
 from typing import Any, Optional
 
 from parallel_corpus import graph
-from parallel_corpus.token import Token
+from parallel_corpus.text_token import Token
 from sparv import api as sparv_api  # type: ignore [import-untyped]
 from transformers import (  # type: ignore [import-untyped]
     AutoTokenizer,
