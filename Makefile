@@ -84,7 +84,7 @@ dev: install-dev
 
 # setup development environment
 install-dev:
-	uv sync --dev
+	uv sync --all-packages --group dev --verbose
 
 # setup production environment
 install:
