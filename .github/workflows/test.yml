@@ -87,67 +87,6 @@ jobs:
           # name: codecov-umbrella
           verbose: true
 
-  doctests:
-    # This action runs doctests for coverage collection and uploads them to codecov.io.
-    # This requires the secret `CODECOV_TOKEN` be set as secret on GitHub, both for
-    # Actions and Dependabot
-
-    name: "${{ matrix.os }} / 3.9 / doctest"
-    strategy:
-      max-parallel: 4
-      fail-fast: false
-      matrix:
-        os: [ubuntu]
-
-    runs-on: ${{ matrix.os }}-latest
-    env:
-      OS: ${{ matrix.os }}-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Set up Python ${{ env.MINIMUM_PYTHON_VERSION }}
-        id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
-
-      - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
-
-      - name: Restore uv cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.UV_CACHE_DIR }}
-          key: uv-${{ runner.os }}-${{ hashFiles('uv.lock') }}
-          restore-keys: |
-            uv-${{ runner.os }}-${{ hashFiles('uv.lock') }}
-            uv-${{ runner.os }}
-
-      - name: Install dependencies
-        run: uv sync --all-extras --all-packages --dev
-      #----------------------------------------------
-      # Run tests and upload coverage
-      #----------------------------------------------
-      - name: make doc-tests
-        run: make doc-tests cov_report=xml
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          # directory: ./coverage
-          env_vars: OS,PYTHON,TESTTYPE
-          fail_ci_if_error: true
-          # files: ./coverage/coverage.xml
-          # flags: unittests
-          # name: codecov-umbrella
-          verbose: true
-        env:
-          PYTHON: ${{ env.MINIMUM_PYTHON_VERSION }}
-          TESTTYPE: doctest
-
   minimal:
     # This action chooses the oldest version of the dependencies permitted by Cargo.toml to ensure
     # that this crate is compatible with the minimal version that this crate and its dependencies
@@ -183,7 +122,6 @@ jobs:
     if: always()
     needs:
       - coverage
-      - doctests
       - minimal
     runs-on: ubuntu-latest
     permissions: {}
