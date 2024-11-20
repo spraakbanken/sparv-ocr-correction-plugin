@@ -37,6 +37,16 @@ Type | HuggingFace Model | Revision
 Model | [`viklofg/swedish-ocr-correction`](https://huggingface.co/viklofg/swedish-ocr-correction) | 84b138048992271be7617ccb11056bbcb9b72262
 Tokenizer | [`google/byt5-small`](https://huggingface.co/google/byt5-small) | 68377bdc18a2ffec8a0533fef03b1c513a4dd49d
 
+## Supported Python versions
+
+This library thrives to support a Python version to End-Of-Life, and will at
+least bump the minor version when support for a Python version is dropped.
+
+The following versions of this library supports these Python versions:
+
+- v0.4: Python 3.9
+- v0.3: Python 3.8
+
 ## Changelog
 
 This project keeps a [changelog](./CHANGELOG.md).
