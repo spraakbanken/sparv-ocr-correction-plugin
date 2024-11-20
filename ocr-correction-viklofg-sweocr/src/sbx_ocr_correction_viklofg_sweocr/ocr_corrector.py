@@ -1,8 +1,10 @@
+"""OCR corrector."""
+
 import re
-from typing import List, Optional, Tuple
+from typing import Any, Optional
 
 from parallel_corpus import graph
-from parallel_corpus.token import Token
+from parallel_corpus.text_token import Token
 from sparv import api as sparv_api  # type: ignore [import-untyped]
 from transformers import (  # type: ignore [import-untyped]
     AutoTokenizer,
@@ -12,6 +14,7 @@ from transformers import (  # type: ignore [import-untyped]
 
 
 def bytes_length(s: str) -> int:
+    """Compute the length in bytes of a str."""
     return len(s.encode("utf-8"))
 
 
@@ -26,34 +29,31 @@ PUNCTUATION = re.compile(r"[.,:;!?]")
 
 
 class OcrCorrector:
+    """OCR Corrector."""
+
     TEXT_LIMIT: int = 127
 
-    def __init__(self, *, tokenizer, model) -> None:
+    def __init__(self, *, tokenizer: Any, model: Any) -> None:
+        """Construct an OcrCorrector."""
         self.tokenizer = tokenizer
         self.model = model
-        self.pipeline = pipeline(
-            "text2text-generation", model=model, tokenizer=tokenizer
-        )
+        self.pipeline = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
 
     @classmethod
     def default(cls) -> "OcrCorrector":
-        tokenizer = AutoTokenizer.from_pretrained(
-            TOKENIZER_NAME, revision=TOKENIZER_REVISION
-        )
-        model = T5ForConditionalGeneration.from_pretrained(
-            MODEL_NAME, revision=MODEL_REVISION
-        )
+        """Create a default OcrCorrector."""
+        tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION)
+        model = T5ForConditionalGeneration.from_pretrained(MODEL_NAME, revision=MODEL_REVISION)
         return cls(model=model, tokenizer=tokenizer)
 
-    def calculate_corrections(
-        self, text: List[str]
-    ) -> List[Tuple[Tuple[int, int], Optional[str]]]:
+    def calculate_corrections(self, text: list[str]) -> list[tuple[tuple[int, int], Optional[str]]]:
+        """Calculate OCR corrections for a given text."""
         logger.debug("Analyzing '%s'", text)
 
-        parts: List[str] = []
-        curr_part: List[str] = []
+        parts: list[str] = []
+        curr_part: list[str] = []
         curr_len = 0
-        ocr_corrections: List[Tuple[Tuple[int, int], Optional[str]]] = []
+        ocr_corrections: list[tuple[tuple[int, int], Optional[str]]] = []
         for word in text:
             len_word = bytes_length(word)
             if (curr_len + len_word + 1) > self.TEXT_LIMIT:
@@ -66,20 +66,24 @@ class OcrCorrector:
             parts.append(TOK_SEP.join(curr_part))
         curr_start = 0
         for part in parts:
-            suggested_text = self.pipeline(part)[0]["generated_text"]
+            pipeline_result = self.pipeline(part)
+            logger.debug("type(pipeline_result)=%s", type(pipeline_result))
+            if len(pipeline_result) != 1:
+                raise NotImplementedError(f"Unexpected length of result = {len(pipeline_result)}")
+            logger.debug("part=%s pipeline_result[0]=%s", part, pipeline_result[0])
+            suggested_text = pipeline_result[0]["generated_text"]
             suggested_text = PUNCTUATION.sub(r" \g<0>", suggested_text)
             graph_aligned = graph.init_with_source_and_target(part, suggested_text)
-            span_ann, curr_start = align_and_diff(graph_aligned, curr_start=curr_start)
+            span_ann, curr_start = _align_and_diff(graph_aligned, curr_start=curr_start)
             ocr_corrections.extend(span_ann)
 
         logger.debug("Finished analyzing. ocr_corrections=%s", ocr_corrections)
         return ocr_corrections
 
 
-def align_and_diff(
-    g: graph.Graph, *, curr_start: int
-) -> Tuple[List[Tuple[Tuple[int, int], Optional[str]]], int]:
+def _align_and_diff(g: graph.Graph, *, curr_start: int) -> tuple[list[tuple[tuple[int, int], Optional[str]]], int]:
     corrections = []
+
     edge_map = graph.edge_map(g)
     visited_tokens = set()
     for s_token in g.source:
@@ -95,12 +99,8 @@ def align_and_diff(
         logger.debug("processing s_token=%s", s_token)
 
         if len(source_ids) == len(target_ids):
-            source_text = "".join(
-                lookup_text(g.source, s_id) for s_id in source_ids
-            ).strip()
-            target_text = "".join(
-                lookup_text(g.target, s_id) for s_id in target_ids
-            ).strip()
+            source_text = "".join(lookup_text(g.source, s_id) for s_id in source_ids).strip()
+            target_text = "".join(lookup_text(g.target, s_id) for s_id in target_ids).strip()
             start = curr_start
             curr_start += 1
             corrections.append(
@@ -111,9 +111,7 @@ def align_and_diff(
             )
 
         elif len(source_ids) == 1:
-            target_texts = " ".join(
-                lookup_text(g.target, id_).strip() for id_ in target_ids
-            )
+            target_texts = " ".join(lookup_text(g.target, id_).strip() for id_ in target_ids)
             source_text = s_token.text.strip()
             start = curr_start
             curr_start += 1
@@ -131,14 +129,13 @@ def align_and_diff(
             corrections.append(((start, curr_start), target_text))
         else:
             # TODO Handle this correct (https://github.com/spraakbanken/sparv-sbx-ocr-correction/issues/50)
-            raise NotImplementedError(
-                f"Handle several sources, {source_ids=} {target_ids=} {g.source=} {g.target=}"  # noqa: E501
-            )
+            raise NotImplementedError(f"Handle several sources, {source_ids=} {target_ids=} {g.source=} {g.target=}")
 
     return corrections, curr_start
 
 
-def lookup_text(tokens: List[Token], id_: str) -> str:
+def lookup_text(tokens: list[Token], id_: str) -> str:
+    """Lookup text from a token with id `id_`."""
     for token in tokens:
         if token.id == id_:
             return token.text

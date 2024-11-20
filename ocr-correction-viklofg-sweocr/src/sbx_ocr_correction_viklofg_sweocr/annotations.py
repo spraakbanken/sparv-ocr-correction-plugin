@@ -1,4 +1,6 @@
-from typing import List, Optional, Tuple
+"""Annotatinos for Sparv."""
+
+from typing import Optional
 
 from sparv import api as sparv_api  # type: ignore [import-untyped]
 from sparv.api import Annotation, Output, annotator  # type: ignore [import-untyped]
@@ -10,27 +12,20 @@ logger = sparv_api.get_logger(__name__)
 
 @annotator("OCR corrections as annotations", language=["swe"])
 def annotate_ocr_correction(
-    out_ocr: Output = Output(
-        "sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction", cls="ocr_correction"
-    ),
+    out_ocr: Output = Output("sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction", cls="ocr_correction"),
     out_ocr_corr: Output = Output(
         "sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
         cls="ocr_correction:correction",
     ),
-    # out_ocr_correction: Output = Output(
-    #     "<token>:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr",
-    #     cls="sbx_ocr_correction_viklofg_sweocr",
-    #     description="OCR Corrections from viklfog/swedish-ocr (format: '|<word>:<score>|...|)",  # noqa: E501
-    # ),
     word: Annotation = Annotation("<token:word>"),
     sentence: Annotation = Annotation("<sentence>"),
     token: Annotation = Annotation("<token>"),
 ) -> None:
+    """Sparv annotator to compute OCR corrections as annotations."""
     ocr_corrector = OcrCorrector.default()
 
     sentences, _orphans = sentence.get_children(word)
     token_word = list(word.read())
-    # out_ocr_correction_annotation = word.create_empty_attribute()
 
     ocr_corrections = []
 
@@ -40,22 +35,18 @@ def annotate_ocr_correction(
         sent = [token_word[token_index] for token_index in sent_idx]
 
         ocr_corrections.append(ocr_corrector.calculate_corrections(sent))
-        # for i, ocr_correction in enumerate(ocr_corrections, start=sent[0]):
-        #     out_ocr_correction_annotation[i] = ocr_correction
 
-    # logger.info("writing annotations")
-    # out_ocr.write(ocr_spans)
-    # out_ocr_corr.write(ocr_corr_ann)
     parse_ocr_corrections(sentences, token, ocr_corrections, out_ocr, out_ocr_corr)
 
 
 def parse_ocr_corrections(
-    sentences: List,
+    sentences: list,
     token: Annotation,
-    ocr_corrections: List[List[Tuple[Tuple[int, int], Optional[str]]]],
+    ocr_corrections: list[list[tuple[tuple[int, int], Optional[str]]]],
     out_ocr: Output,
     out_ocr_corr: Output,
 ) -> None:
+    """Parse OCR corrections and write output."""
     ocr_spans = []
     ocr_corr_ann = []
 
