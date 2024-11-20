@@ -1,0 +1,24 @@
+id: swe-sbx-ocr-correction-viklofg-sweocr
+name:
+    swe: OCR korrigering med viklofg/swedish-ocr-correction för svenska
+    eng: OCR correction with viklofg/swedish-ocr-correction for Swedish
+short_description:
+    swe: Annotering av OCR-korrigeringar.
+    eng: OCR correction annotations
+task: ocr-correction
+annotations:
+    - sbx-ocr-correction
+    - sbx_ocr_correction.ocr-correction--viklofg-sweocr
+example_output: |-
+    ```xml
+    <token pos="KN">Och</token>
+    <token pos="HA">då</token>
+    <token pos="PN">de</token>
+    <token pos="VB">räknade</token>
+    <token pos="MID">,</token>
+    <sbx-ocr-correction ocr-correction--viklofg-sweocr="så">
+      <token pos="AB">si</token>
+    </sbx-ocr-correction>
+    <token pos="MID">,</token>
+    <token pos="AB">då</token>
+    ```
