@@ -3,6 +3,7 @@
 import re
 from typing import Any, Optional
 
+import torch
 from parallel_corpus import graph
 from parallel_corpus.text_token import Token
 from sparv import api as sparv_api  # type: ignore [import-untyped]
@@ -37,13 +38,30 @@ class OcrCorrector:
         """Construct an OcrCorrector."""
         self.tokenizer = tokenizer
         self.model = model
-        self.pipeline = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
+        if torch.cuda.is_available():
+            logger.info("Using GPU (cuda)")
+            dtype = torch.float16
+        else:
+            logger.warning("Using CPU, is cuda available?")
+            dtype = torch.float32
+        device_map = "auto" if torch.cuda.is_available() and torch.cuda.device_count() > 1 else None
+        self.pipeline = pipeline(
+            "text2text-generation", model=model, tokenizer=tokenizer, device_map=device_map, torch_dtype=dtype
+        )
 
     @classmethod
     def default(cls) -> "OcrCorrector":
         """Create a default OcrCorrector."""
+        dtype = torch.float16 if torch.cuda.is_available() else torch.float32
         tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION)
-        model = T5ForConditionalGeneration.from_pretrained(MODEL_NAME, revision=MODEL_REVISION)
+        model = T5ForConditionalGeneration.from_pretrained(
+            MODEL_NAME,
+            revision=MODEL_REVISION,
+            torch_dtype=dtype,
+            device_map=("auto" if torch.cuda.is_available() and torch.cuda.device_count() > 1 else None),
+        )
+        if torch.cuda.is_available() and torch.cuda.device_count() == 1:
+            model = model.cuda()  # type: ignore
         return cls(model=model, tokenizer=tokenizer)
 
     def calculate_corrections(self, text: list[str]) -> list[tuple[tuple[int, int], Optional[str]]]:
