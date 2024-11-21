@@ -8,7 +8,7 @@ short_description:
 task: ocr-correction
 annotations:
     - sbx-ocr-correction
-    - sbx_ocr_correction.ocr-correction--viklofg-sweocr
+    - sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
 example_output: |-
     ```xml
     <token pos="KN">Och</token>
