@@ -169,7 +169,17 @@ snapshot-update:
 ### === project targets below this line ===
 .PHONY: viklofg-sweocr-prepare-release
 viklofg-sweocr-prepare-release: ocr-correction-viklofg-sweocr/CHANGELOG.md
+	cd ocr-correction-viklofg-sweocr; $(MAKE) tests/requirements-testing.lock
 
 .PHONY: ocr-correction-viklofg-sweocr/CHANGELOG.md
 ocr-correction-viklofg-sweocr/CHANGELOG.md:
 	git cliff --unreleased --include-path "ocr-correction-viklofg-sweocr/**/*" --include-path "examples/ocr-correction-viklofg-sweocr/**/*" --prepend $@
+
+viklofg-sweocr-bumpversion: force_lookup
+	@cd ocr-correction-viklofg-sweocr; $(MAKE) bumpversion $(MFLAGS)
+
+viklofg-sweocr-bumpversion-show: force_lookup
+	@cd ocr-correction-viklofg-sweocr; $(MAKE) bumpversion-show
+
+force_lookup:
+	@true
