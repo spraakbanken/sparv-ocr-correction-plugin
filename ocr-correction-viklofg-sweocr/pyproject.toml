@@ -1,6 +1,6 @@
 [project]
 name = "sparv-sbx-ocr-correction-viklofg-sweocr"
-version = "0.5.0"
+version = "0.5.1"
 description = "A sparv plugin for computing suggested OCR improvements."
 readme = "README.md"
 authors = [

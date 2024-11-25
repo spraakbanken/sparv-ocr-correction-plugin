@@ -6,4 +6,4 @@ __all__ = ["annotate_ocr_correction"]
 
 __description__ = "Annotate tokens with corrections of OCR-errors."
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
