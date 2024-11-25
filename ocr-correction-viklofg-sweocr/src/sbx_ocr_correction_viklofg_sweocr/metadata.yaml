@@ -7,7 +7,7 @@ short_description:
     eng: OCR correction annotations
 task: ocr-correction
 annotations:
-    - sbx-ocr-correction
+    - sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction
     - sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
 example_output: |-
     ```xml
