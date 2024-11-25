@@ -1955,7 +1955,7 @@ dependencies = [
 
 [[package]]
 name = "sparv-sbx-ocr-correction-viklofg-sweocr"
-version = "0.4.2"
+version = "0.5.0"
 source = { editable = "ocr-correction-viklofg-sweocr" }
 dependencies = [
     { name = "parallel-corpus" },
