@@ -6,6 +6,7 @@ short_description:
     swe: Annotering av OCR-korrigeringar.
     eng: OCR correction annotations
 task: ocr-correction
+plugin_url: https://pypi.org/project/sparv-sbx-ocr-correction-viklofg-sweocr/
 annotations:
     - sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction
     - sbx_ocr_correction_viklofg_sweocr.sbx-ocr-correction:sbx_ocr_correction_viklofg_sweocr.ocr-correction--viklofg-sweocr
